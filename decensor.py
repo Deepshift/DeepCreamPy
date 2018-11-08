@@ -6,7 +6,7 @@ from copy import deepcopy
 
 import config
 from libs.pconv_hybrid_model import PConvUnet
-from libs.flood_fill import find_regions, expand_bounding
+from libs.utils import *
 
 class Decensor:
 
@@ -81,8 +81,7 @@ class Decensor:
             alpha_channel = np.expand_dims(alpha_channel, axis =-1)
             ori = ori.convert('RGB')
 
-        ori_array = np.asarray(ori)
-        ori_array = np.array(ori_array / 255.0)
+        ori_array = image_to_array(ori)
         ori_array = np.expand_dims(ori_array, axis = 0)
 
         if self.is_mosaic:
@@ -110,18 +109,16 @@ class Decensor:
             mask_img = Image.fromarray(mask_reshaped.astype('uint8'))
             #resize the cropped images
             crop_img = crop_img.resize((512, 512))
-            crop_img_array = np.asarray(crop_img)
-            crop_img_array = crop_img_array / 255.0
+            crop_img_array = image_to_array(crop_img)
             crop_img_array = np.expand_dims(crop_img_array, axis = 0)
             #resize the mask images
             mask_img = mask_img.crop(bounding_box)
             mask_img = mask_img.resize((512, 512))
             # mask_img.show()
             #convert mask_img back to array 
-            mask_array = np.asarray(mask_img)
-            mask_array = np.array(mask_array / 255.0)
+            mask_array = image_to_array(mask_img)
             #the mask has been upscaled so there will be values not equal to 0 or 1
-            #mask_array[mask_array < 0.01] = 0
+
             mask_array[mask_array > 0] = 1
             mask_array = np.expand_dims(mask_array, axis = 0)
 
@@ -142,12 +139,13 @@ class Decensor:
             pred_img = Image.fromarray(pred_img_array.astype('uint8'))
             # pred_img.show()
             pred_img = pred_img.resize((bounding_width, bounding_height), resample = Image.BICUBIC)
-            pred_img_array = np.asarray(pred_img)
-            pred_img_array = pred_img_array / 255.0
+
+            pred_img_array = image_to_array(pred_img)
 
             # print(pred_img_array.shape)
             pred_img_array = np.expand_dims(pred_img_array, axis = 0)
 
+            # copy the decensored regions into the output image
             for i in range(len(ori_array)):
                 for col in range(bounding_width):
                     for row in range(bounding_height):
@@ -159,7 +157,7 @@ class Decensor:
 
         output_img_array = output_img_array * 255.0
 
-        #restore the alpha channel
+        #restore the alpha channel if the image had one
         if has_alpha:
             #print(output_img_array.shape)
             #print(alpha_channel.shape)

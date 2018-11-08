@@ -1,4 +1,10 @@
+import numpy as np
 from PIL import Image, ImageDraw
+
+#convert PIL image to numpy array
+def image_to_array(image):
+	array = np.asarray(image)
+	return np.array(array / 255.0)
 
 #find strongly connected components with the mask color
 def find_regions(image):
