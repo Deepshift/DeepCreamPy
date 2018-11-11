@@ -15,7 +15,9 @@ The user colors censored regions green in an image editing program like GIMP or 
 
 DeepCreamPy has a pre-built binary for Windows 64-bit available [here](https://github.com/deeppomf/DeepCreamPy/releases/latest). DeepCreamPy works on Windows, Mac, and Linux.
 
-<img src="https://github.com/deeppomf/DeepCreamPy/blob/master/readme_images/mermaid_collage.png" width="500">
+<p align="center">
+	<img src="https://github.com/deeppomf/DeepCreamPy/blob/master/readme_images/mermaid_collage.png" width="800">
+</p>
 
 ## Features
 - Decensoring images of ANY size
