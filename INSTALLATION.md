@@ -5,7 +5,7 @@ You can download the latest release [here](https://github.com/deeppomf/DeepCream
 Binary only available for Windows 64-bit.
 
 ## Run Code Yourself
-If you want to run the code yourself, you can clone this repo and download the model from https://drive.google.com/open?id=1byrmn6wp0r27lSXcT9MC4j-RQ2R04P1Z. Unzip the file into the /models/ folder.
+If you want to run the code yourself, you can clone this repo and download the model from https://drive.google.com/open?id=1Nzh2KAUO_rYPu2vDM_YP1EgbWtjI2hRX. Unzip the file into the /models/ folder.
 
 ### Dependencies (for running the code yourself)
 - Python 3.6.7

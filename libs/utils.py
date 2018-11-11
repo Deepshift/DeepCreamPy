@@ -41,7 +41,7 @@ def find_regions(image):
     return regions
 
 # risk of box being bigger than the image
-def expand_bounding(img, region, expand_factor=1.5, min_size = 256, max_size=512):
+def expand_bounding(img, region, expand_factor=1.5, min_size = 256):
     #expand bounding box to capture more context
     x, y = zip(*region)
     min_x, min_y, max_x, max_y = min(x), min(y), max(x), max(y)
@@ -54,6 +54,7 @@ def expand_bounding(img, region, expand_factor=1.5, min_size = 256, max_size=512
     y_center = (min_y + max_y)//2
     current_size = max(bb_width, bb_height)
     current_size  = int(current_size * expand_factor)
+    max_size = min(width, height)
     if current_size > max_size:
         current_size = max_size
     elif current_size < min_size:

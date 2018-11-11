@@ -28,7 +28,7 @@ class Decensor:
         return mask
 
     def load_model(self):
-        self.model = PConvUnet(weight_filepath='data/logs/')
+        self.model = PConvUnet()
         self.model.load(
             r"./models/model.h5",
             train_bn=False,
@@ -60,6 +60,7 @@ class Decensor:
                         if (test_bn == color_bn) and (test_ext.casefold() in valid_formats):
                             ori_file_path = os.path.join(ori_dir, test_file_name)
                             ori_img = Image.open(ori_file_path)
+                            # colored_img.show()
                             self.decensor_image(ori_img, colored_img, file_name)
                             break
                     else: #for...else, i.e if the loop finished without encountering break
@@ -86,7 +87,16 @@ class Decensor:
 
         if self.is_mosaic:
             #if mosaic decensor, mask is empty
-            mask = np.ones(ori_array.shape, np.uint8)
+            # mask = np.ones(ori_array.shape, np.uint8)
+            # print(mask.shape)
+            colored = colored.convert('RGB')
+            color_array = image_to_array(colored)
+            color_array = np.expand_dims(color_array, axis = 0)
+            mask = self.get_mask(color_array)
+            # mask_reshaped = mask[0,:,:,:] * 255.0
+            # mask_img = Image.fromarray(mask_reshaped.astype('uint8'))
+            # mask_img.show()
+
         else:
             mask = self.get_mask(ori_array)
 
@@ -103,7 +113,7 @@ class Decensor:
         for region_counter, region in enumerate(regions, 1):
             bounding_box = expand_bounding(ori, region)
             crop_img = ori.crop(bounding_box)
-            # crop_img.show()
+            crop_img.show()
             #convert mask back to image
             mask_reshaped = mask[0,:,:,:] * 255.0
             mask_img = Image.fromarray(mask_reshaped.astype('uint8'))
@@ -120,6 +130,19 @@ class Decensor:
             #the mask has been upscaled so there will be values not equal to 0 or 1
 
             mask_array[mask_array > 0] = 1
+            
+            if self.is_mosaic:
+                a, b = np.where(np.all(mask_array == 0, axis = -1))
+                print(a, b)
+                coords = [coord for coord in zip(a,b) if ((coord[0] + coord[1]) % 2 == 0)]
+                a,b = zip(*coords)
+
+                mask_array[a,b] = 1
+                # mask_array = mask_array * 255.0
+                # img = Image.fromarray(mask_array.astype('uint8'))
+                # img.show()
+                # return
+
             mask_array = np.expand_dims(mask_array, axis = 0)
 
             # Run predictions for this batch of images
@@ -159,8 +182,6 @@ class Decensor:
 
         #restore the alpha channel if the image had one
         if has_alpha:
-            #print(output_img_array.shape)
-            #print(alpha_channel.shape)
             output_img_array = np.concatenate((output_img_array, alpha_channel), axis = 2)
 
         output_img = Image.fromarray(output_img_array.astype('uint8'))
