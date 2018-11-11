@@ -113,7 +113,7 @@ class Decensor:
         for region_counter, region in enumerate(regions, 1):
             bounding_box = expand_bounding(ori, region)
             crop_img = ori.crop(bounding_box)
-            crop_img.show()
+            # crop_img.show()
             #convert mask back to image
             mask_reshaped = mask[0,:,:,:] * 255.0
             mask_img = Image.fromarray(mask_reshaped.astype('uint8'))
