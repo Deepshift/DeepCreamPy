@@ -1,5 +1,7 @@
 # DeepCreamPy
-*Decensoring Hentai with Deep Neural Networks. Formerly named DeepMindBreak.*
+*Decensoring Hentai with Deep Neural Networks.*
+
+[![GitHub release](https://img.shields.io/github/release/deeppomf/DeepCreamPy.svg)](https://github.com/deeppomf/DeepCreamPy/releases/latest)
 
 A deep learning-based tool to automatically replace censored artwork in hentai with plausible reconstructions.
 
