@@ -4,6 +4,8 @@
 [![GitHub release](https://img.shields.io/github/release/deeppomf/DeepCreamPy.svg)](https://github.com/deeppomf/DeepCreamPy/releases/latest)
 [![GitHub downloads](https://img.shields.io/github/downloads/deeppomf/DeepCreamPy/latest/total.svg)](https://github.com/deeppomf/DeepCreamPy/releases/latest)
 [![GitHub downloads](https://img.shields.io/github/downloads/deeppomf/DeepCreamPy/total.svg)](https://github.com/deeppomf/DeepCreamPy/releases)
+[![GitHub issues](https://img.shields.io/github/issues/deeppomf/DeepCreamPy.svg)](https://github.com/deeppomf/DeepCreamPy/issues)
+[![Donate with PayPal](https://img.shields.io/badge/paypal-donate-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=SAM6C6DQRDBAE)
 
 A deep learning-based tool to automatically replace censored artwork in hentai with plausible reconstructions.
 
