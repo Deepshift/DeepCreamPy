@@ -44,6 +44,7 @@ Setup:
 
 Usage:
 * [Decensoring tutorial](USAGE.md)
+* [Troubleshooting for installing](TROUBLESHOOTING_INSTALL.md)
 * [Troubleshooting for poor quality decensors](TROUBLESHOOTING.md)
 
 Miscellaneous:
@@ -51,7 +52,7 @@ Miscellaneous:
 
 ## To do
 - Finish the user interface (estimated November)
-- Update model with better quality data (estimated November)
+- ~~Update model with better quality data (estimated November)~~
 - Add support for black and white images
 - Add error log
 
@@ -76,4 +77,4 @@ Data is modified from gwern's project [Danbooru2017: A Large-Scale Crowdsourced 
 See [ACKNOWLEDGEMENTS.md](ACKNOWLEDGEMENTS.md) for full license text of these projects.
 
 ## Donations
-If you like the work I do, you can donate to me via Paypal: [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=SAM6C6DQRDBAE)
+If you like the work I do, you can donate to me via Paypal. The funds will mainly go towards purchasing better GPUs to accelerate training. [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=SAM6C6DQRDBAE)
