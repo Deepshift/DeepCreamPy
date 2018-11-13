@@ -1,4 +1,4 @@
-# Troubleshooting
+# Troubleshooting Decensors
 
 ## Poor Mosaic Decensorings/Mosaic Decensoring Does Nothing
 Mosaic decensoring is a WIP feature. Poor results are possible, especially if the censoring is very bad.
