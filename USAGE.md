@@ -53,3 +53,7 @@ Decensored images will be saved to the "decensor_output" folder. Decensoring tak
 ## III. Decensoring with the user interface
 
 To be implemented.
+
+# Troubleshooting
+
+If you have difficulties getting DeepCreamPy to decensor, go [here](TROUBLESHOOTING.md).
