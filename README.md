@@ -39,16 +39,16 @@ It does NOT work with:
 
 ## Table of Contents
 Setup:
-* [Running latest Window 64-bit release](INSTALLATION_BINARY.md)
-* [Running code yourself](INSTALLATION.md)
+* [Running latest Window 64-bit release](docs/INSTALLATION_BINARY.md)
+* [Running code yourself](docs/INSTALLATION.md)
 
 Usage:
-* [Decensoring tutorial](USAGE.md)
-* [Troubleshooting for installing](TROUBLESHOOTING_INSTALL.md)
-* [Troubleshooting for poor quality decensors](TROUBLESHOOTING.md)
+* [Decensoring tutorial](docs/USAGE.md)
+* [Troubleshooting for installing](docs/TROUBLESHOOTING.md)
+* [Troubleshooting for poor quality decensors](docs/TROUBLESHOOTING_DECENSORS.md)
 
 Miscellaneous:
-* [FAQ](FAQ.md)
+* [FAQ](docs/FAQ.md)
 
 ## To do
 - Finish the user interface (estimated November)
@@ -72,9 +72,9 @@ Neural network code is modified from MathiasGruber's project [Partial Convolutio
 
 User interface code is modified from Packt's project [Tkinter GUI Application Development Blueprints - Second Edition](https://github.com/PacktPublishing/Tkinter-GUI-Application-Development-Blueprints-Second-Edition). [Tkinter GUI Application Development Blueprints - Second Edition](https://github.com/PacktPublishing/Tkinter-GUI-Application-Development-Blueprints-Second-Edition) is licensed under the MIT license.
 
-Data is modified from gwern's project [Danbooru2017: A Large-Scale Crowdsourced and Tagged Anime Illustration Dataset](https://www.gwern.net/Danbooru2017).
+Data is modified from gwern's project [Danbooru2017: A Large-Scale Crowdsourced and Tagged Anime Illustration Dataset](https://www.gwern.net/Danbooru2017) and other sources.
 
-See [ACKNOWLEDGEMENTS.md](ACKNOWLEDGEMENTS.md) for full license text of these projects.
+See [ACKNOWLEDGEMENTS.md](docs/ACKNOWLEDGEMENTS.md) for full license text of these projects.
 
 ## Donations
 If you like the work I do, you can donate to me via Paypal. The funds will mainly go towards purchasing better GPUs to accelerate training. [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=SAM6C6DQRDBAE)
