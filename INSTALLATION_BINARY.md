@@ -6,4 +6,4 @@
 
 DeepCreamPy is now ready to run!
 
-For instructions on running the binary, see [Decensoring tutorial](USAGE.md).
+For instructions on running the binary, see this [decensoring tutorial](USAGE.md).
