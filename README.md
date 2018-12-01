@@ -51,7 +51,7 @@ Miscellaneous:
 * [FAQ](docs/FAQ.md)
 
 ## To do
-- Finish the user interface (estimated November)
+- Finish the user interface (estimated ???)
 - ~~Update model with better quality data (estimated November)~~
 - Add support for black and white images
 - Add error log
