@@ -1,12 +1,17 @@
-import numpy as np
-from PIL import Image
-import os
+try:
+    import numpy as np
+    from PIL import Image
+    import os
 
-from copy import deepcopy
+    from copy import deepcopy
 
-import config
-from libs.pconv_hybrid_model import PConvUnet
-from libs.utils import *
+    import config
+    from libs.pconv_hybrid_model import PConvUnet
+    from libs.utils import *
+except ImportError as err:
+    print("Error: ", err)
+    print("Could not import modules. Make sure all dependencies are installed.")
+    exit(1)
 
 class Decensor:
 
@@ -68,6 +73,9 @@ class Decensor:
                         print("Check if it exists and is in the PNG or JPG format.")
                 else:
                     self.decensor_image(colored_img, colored_img, file_name)
+            elif not file_name.startswith("."): # warn if not a PNG, but ignore .gitkeep
+                print("--------------------------------------------------------------------------")
+                print("Unsupported file type (not a PNG): {}".format(color_file_path))
         print("--------------------------------------------------------------------------")
 
     #decensors one image at a time
@@ -105,7 +113,7 @@ class Decensor:
         print("Found {region_count} censored regions in this image!".format(region_count = len(regions)))
 
         if len(regions) == 0 and not self.is_mosaic:
-            print("No green regions detected!")
+            print("No green regions detected! Make sure you're using exactly the right color.")
             return
 
         output_img_array = ori_array[0].copy()
