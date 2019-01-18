@@ -80,7 +80,7 @@ class Decensor:
 
     #decensors one image at a time
     #TODO: decensor all cropped parts of the same image in a batch (then i need input for colored an array of those images and make additional changes)
-    def decensor_image(self, ori, colored, file_name):
+    def decensor_image(self, ori, colored, file_name=None):
         width, height = ori.size
         #save the alpha channel if the image has an alpha channel
         has_alpha = False
@@ -194,13 +194,17 @@ class Decensor:
 
         output_img = Image.fromarray(output_img_array.astype('uint8'))
 
-        #save the decensored image
-        #file_name, _ = os.path.splitext(file_name)
-        save_path = os.path.join(self.args.decensor_output_path, file_name)
-        output_img.save(save_path)
+        if file_name != None:
+            #save the decensored image
+            #file_name, _ = os.path.splitext(file_name)
+            save_path = os.path.join(self.args.decensor_output_path, file_name)
+            output_img.save(save_path)
 
-        print("Decensored image saved to {save_path}!".format(save_path=save_path))
-        return
+            print("Decensored image saved to {save_path}!".format(save_path=save_path))
+            return
+        else:
+            print("Decensored image. Returning it.")
+            return output_img
 
 if __name__ == '__main__':
     decensor = Decensor()
