@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 """
 Code illustration: 6.09
     
