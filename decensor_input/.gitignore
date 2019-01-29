@@ -1,0 +1,7 @@
+*.bmp
+*.png
+*.jpg
+*.gif
+*.tif
+*.tiff
+!mermaid_censored.png
