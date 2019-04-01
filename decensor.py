@@ -21,7 +21,7 @@ class Decensor:
         self.args = config.get_args()
         self.is_mosaic = self.args.is_mosaic
 
-        self.mask_color = [self.args.mask_color_red/255.0, self.args.mask_color_green/255.0, self.args.mask_color_blue/255.0]
+        self.mask_color = [float(v/255) for v in self.args.mask_color] # normalize mask color
 
         if not os.path.exists(self.args.decensor_output_path):
             os.makedirs(self.args.decensor_output_path)
@@ -71,7 +71,7 @@ class Decensor:
                             self.decensor_image(ori_img, colored_img, file_name)
                             break
                     else: #for...else, i.e if the loop finished without encountering break
-                        print("Corresponding original, uncolored image not found in {}.".format(ori_file_path))
+                        print("Corresponding original, uncolored image not found in {}.")
                         print("Check if it exists and is in the PNG or JPG format.")
                 else:
                     self.decensor_image(colored_img, colored_img, file_name)
@@ -111,7 +111,7 @@ class Decensor:
             mask = self.get_mask(ori_array)
 
         #colored image is only used for finding the regions
-        regions = find_regions(colored.convert('RGB'))
+        regions = find_regions(colored.convert('RGB'), [v*255 for v in self.mask_color]) #unnormalize the color so it can check against pixels
         print("Found {region_count} censored regions in this image!".format(region_count = len(regions)))
 
         if len(regions) == 0 and not self.is_mosaic:

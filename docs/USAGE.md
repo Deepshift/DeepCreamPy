@@ -2,6 +2,7 @@
 ## I. Decensoring bar censors
 
 For each image you want to decensor, using image editing software like Photoshop or GIMP to color the areas you want to decensor the green color (0,255,0), which is a very bright green color and be sure that the picture you use had RGB color Mode not Indexed Color Mode.
+Note: you can also specify a custom mask color, with the --mask_color option. For example, for bright red, you would use --mask_color=255,0,0
 
 *I strongly recommend you use the pencil tool and NOT the brush tool.*
 

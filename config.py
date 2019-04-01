@@ -1,5 +1,14 @@
 import argparse
 
+def str2floatarr(v):
+    if type(v) == str:
+        try:
+            return [float(v) for v in v.split(',')]
+        except:
+            raise argparse.ArgumentTypeError('Integers seperated by commas expected.')
+    else:
+        raise argparse.ArgumentTypeError('Integers seperated by commas expected.')
+
 def str2bool(v):
     if v.lower() in ('yes', 'true', 't', 'y', '1', True):
         return True
@@ -17,10 +26,7 @@ def get_args():
 	parser.add_argument('--decensor_output_path', dest='decensor_output_path', default='./decensor_output/', help='output images generated from running decensor.py path')
 
 	#Decensor settings
-	parser.add_argument('--mask_color_red', dest='mask_color_red', default=0, help='red channel of mask color in decensoring')
-	parser.add_argument('--mask_color_green', dest='mask_color_green', default=255, help='green channel of mask color in decensoring')
-	parser.add_argument('--mask_color_blue', dest='mask_color_blue', default=0, help='blue channel of mask color in decensoring')
-
+	parser.add_argument('--mask_color', dest='mask_color', default=[0,255,0], type=str2floatarr, help='rgb color of the mask, comma seperated.')
 	parser.add_argument('--is_mosaic', dest='is_mosaic', default='False', type=str2bool, help='true if image has mosaic censoring, false otherwise')
 
 	args = parser.parse_args()
