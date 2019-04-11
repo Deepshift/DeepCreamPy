@@ -71,7 +71,7 @@ class Decensor:
                             self.decensor_image(ori_img, colored_img, file_name)
                             break
                     else: #for...else, i.e if the loop finished without encountering break
-                        print("Corresponding original, uncolored image not found in {}.")
+                        print("Corresponding original, uncolored image not found in {}".format(color_file_path))
                         print("Check if it exists and is in the PNG or JPG format.")
                 else:
                     self.decensor_image(colored_img, colored_img, file_name)
