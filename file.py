@@ -21,7 +21,7 @@ def check_file(input_dir, output_dir, Release_version = True):
         # solving https://github.com/deeppomf/DeepCreamPy/issues/25
         # appending in list with reason as tuple (file name, reason)
         for lhs in file_list:
-            lhs.lowwer()
+            lhs.lower()
             if not lhs.lower().endswith('.png') :
                 files_removed.append((lhs, 0))
             for rhs in output_file_list:
