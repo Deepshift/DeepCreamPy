@@ -153,6 +153,7 @@ class PaintApplication(framework.Framework):
         self.undo()
 
     def undo(self):
+        self.canvas.delete(self.circle)
         items_stack = list(self.canvas.find("all"))
         try:
             last_item_id = items_stack.pop()

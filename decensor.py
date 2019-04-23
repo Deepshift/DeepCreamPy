@@ -8,6 +8,7 @@ try:
     from copy import deepcopy
 
     import config
+    import file
     from libs.pconv_hybrid_model import PConvUnet
     from libs.utils import *
 except ImportError as err:
@@ -47,6 +48,11 @@ class Decensor:
         #self.load_model()
         color_dir = self.args.decensor_input_path
         file_names = os.listdir(color_dir)
+        
+        input_dir = self.args.decensor_input_path
+        output_dir = self.args.decensor_output_path
+        
+        file_names, self.files_removed = file.check_file( input_dir, output_dir, False)
 
         #convert all images into np arrays and put them in a list
         for file_name in file_names:
@@ -55,7 +61,14 @@ class Decensor:
             if os.path.isfile(color_file_path) and color_ext.casefold() == ".png":
                 print("--------------------------------------------------------------------------")
                 print("Decensoring the image {}".format(color_file_path))
-                colored_img = Image.open(color_file_path)
+                try :
+                    colored_img = Image.open(color_file_path)
+                except:
+                    print("Cannot identify image file (" +str(color_file_path)+")")
+                    self.files_removed.append((color_file_path,3))
+                    # incase of abnormal file format change (ex : text.txt -> text.png)
+                    continue
+                    
                 #if we are doing a mosaic decensor
                 if self.is_mosaic:
                     #get the original file that hasn't been colored
@@ -75,11 +88,13 @@ class Decensor:
                         print("Check if it exists and is in the PNG or JPG format.")
                 else:
                     self.decensor_image(colored_img, colored_img, file_name)
-            elif not file_name.startswith("."): # warn if not a PNG, but ignore .gitkeep
+            else:
                 print("--------------------------------------------------------------------------")
-                print("Unsupported file type (not a PNG): {}".format(color_file_path))
+                print("Iregular file deteced : "+str(color_file_path))
         print("--------------------------------------------------------------------------")
-
+        file.error_messages(self.files_removed)
+        input("\nPress anything to end...")
+        
     #decensors one image at a time
     #TODO: decensor all cropped parts of the same image in a batch (then i need input for colored an array of those images and make additional changes)
     def decensor_image(self, ori, colored, file_name=None):
