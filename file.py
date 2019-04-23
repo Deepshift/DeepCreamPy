@@ -46,7 +46,7 @@ def error_messages(file_lists):
         return
 
     for remove_this,reason in file_lists:
-        file_list.remove(remove_this)
+        file_lists.remove(remove_this)
         if reason == 0:
             print(" REMOVED : (" + str(remove_this) +") is not PNG file format")
         elif reason == 1:
