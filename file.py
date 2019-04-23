@@ -33,23 +33,23 @@ def check_file(input_dir, output_dir, Release_version = True):
         # decensor process
         print("\n＃＃＃ These files will not be decensored for following reason  ＃＃＃\n")
 
-        error_messages(files_removed)
+        error_messages(file_list, files_removed)
         input("\nPress anything to continue...")
 
         print("\n＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃＃\n")
 
     return file_list, files_removed
 
-def error_messages(file_lists):
+def error_messages(file_list, files_removed):
 
-    if len(file_lists) ==0:
+    if len(files_removed) ==0:
         return
 
-    for remove_this,reason in file_lists:
-        file_lists.remove(remove_this)
+    for remove_this,reason in files_removed:
+        file_list.remove(remove_this)
         if reason == 0:
-            print(" REMOVED : (" + str(remove_this) +") is not PNG file format")
+            print(" REMOVED : (" + str(remove_this) +")   is not PNG file format")
         elif reason == 1:
-            print(" REMOVED : (" + str(remove_this) +") already exists")
+            print(" REMOVED : (" + str(remove_this) +")   already exists")
         elif reason == 2:
-            print(" REMOVED : (" + str(remove_this) +") file unreadable")
+            print(" REMOVED : (" + str(remove_this) +")   file unreadable")
