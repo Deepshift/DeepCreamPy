@@ -52,6 +52,7 @@ class Decensor:
         input_dir = self.args.decensor_input_path
         output_dir = self.args.decensor_output_path
         
+        # Change False to True before release --> file.check_file( input_dir, output_dir, True)
         file_names, self.files_removed = file.check_file( input_dir, output_dir, False)
 
         #convert all images into np arrays and put them in a list
