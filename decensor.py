@@ -93,7 +93,8 @@ class Decensor:
                 print("--------------------------------------------------------------------------")
                 print("Iregular file deteced : "+str(color_file_path))
         print("--------------------------------------------------------------------------")
-        file.error_messages(self.files_removed)
+        if(self.files_removed is not None):
+            file.error_messages(None, self.files_removed)
         input("\nPress anything to end...")
         
     #decensors one image at a time
