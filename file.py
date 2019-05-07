@@ -42,11 +42,12 @@ def check_file(input_dir, output_dir, Release_version = True):
 
 def error_messages(file_list, files_removed):
 
-    if len(files_removed) ==0:
+    if files_removed is None:
         return
 
     for remove_this,reason in files_removed:
-        file_list.remove(remove_this)
+        if(file_list is not None):
+            file_list.remove(remove_this)
         if reason == 0:
             print(" REMOVED : (" + str(remove_this) +")   is not PNG file format")
         elif reason == 1:
