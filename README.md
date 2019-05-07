@@ -64,7 +64,7 @@ Miscellaneous:
 
 Follow me on Twitter [@deeppomf](https://twitter.com/deeppomf) for project updates.
 
-Contributions are welcome! Special thanks to IAmTheRedSpy, 0xb8, deniszh, Smethan, mrmajik45, harjitmoe, itsVale, StartleStars, and SoftArmpit!
+Contributions are welcome! Special thanks to ccppoo, IAmTheRedSpy, 0xb8, deniszh, Smethan, mrmajik45, harjitmoe, itsVale, StartleStars, and SoftArmpit!
 
 ## License
 This project is licensed under GNU Affero General Public License v3.0.
