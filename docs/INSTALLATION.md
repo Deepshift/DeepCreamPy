@@ -9,7 +9,7 @@ If you want to run the code yourself, you can clone this repo and download the m
 
 ### Dependencies (for running the code yourself)
 - Python 3.6.7
-- TensorFlow 1.10
+- TensorFlow 1.12
 - Keras 2.2.4
 - Pillow
 - h5py
