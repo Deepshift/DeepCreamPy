@@ -1,4 +1,4 @@
-﻿tensorflow>=1.12.1
+tensorflow=1.14.0
 absl-py==0.5.0
 altgraph==0.16.1
 astor==0.7.1
