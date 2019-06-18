@@ -130,6 +130,8 @@ class Decensor:
 
         # colored image is only used for finding the regions
         # regions = find_regions(colored.convert('RGB'), [v*255 for v in self.mask_color]) #unnormalize the color so it can check against pixels
+        
+        # Find regions by mask instead of by color
         regions = region_by_mask(mask)
         print("Found {region_count} censored regions in this image!".format(region_count=len(regions)))
 
@@ -138,44 +140,56 @@ class Decensor:
             return
 
         output_img_array = ori_array[0].copy()
+        # Initialize array to store all the groups
         box_bounds = []
+        # Iterate over all found regions to group them into bigger boxes for faster processing
         for region in regions:
+            # Expand and get the bounding of the current region 
             bounding_box = expand_bounding_mk2(ori, region, expand_factor=1.25, min_size=64)
 
+            # If this is the first region being processed, create a big bounding box around it
             if (len(box_bounds) == 0):
-                boxCheck = bounding_box_check_mk2((width, height), bounding_box, bounding_box, target_size=(512, 512))
+                boxCheck = bounding_box_check_mk2((width, height), bounding_box, target_size=(512, 512))
+                # Check that the box has the correct size / if the censor region is too big
                 if (boxCheck[0]):
                     box_bounds.append([boxCheck[1], [bounding_box], [region]])
-                    continue
                 else:
-                    print("Could not create bounding box for censored area. Aborting.")
-                    return
+                    print("Censor region exceeds boundary: {}".format(bounding_box))
+                continue   
+            # Iterate over all big boxes (group boxes) 
             for i in range(len(box_bounds)):
+                # Check if the current region fits into a box
                 boxCheck = big_bound_check_mk2((width, height), box_bounds[i][0], bounding_box, box_bounds[i][1], (512, 512))
+                # If it fits, append to this box and update box coordinates
                 if (boxCheck[0]):
                     box_bounds[i][0] = boxCheck[1]
                     box_bounds[i][1].append(bounding_box)
                     box_bounds[i][2].append(region)
                     break
                 else:
+                    # If we don't have more boxes to check then we can try to create a new box
                     if (i == len(box_bounds) - 1):
-                        boxCheck = bounding_box_check_mk2((width, height), bounding_box, bounding_box, target_size=(512, 512))
+                        # If the region didn't fit, create a new big box (or do nothing if area is too big)
+                        boxCheck = bounding_box_check_mk2((width, height), bounding_box, target_size=(512, 512))
                         if (boxCheck[0]):
                             box_bounds.append([boxCheck[1], [bounding_box], [region]])
                         else:
-                            print("Could not create bounding box for censored area. Aborting.")
-                            return
+                            print("Censor region exceeds boundary: {}".format(bounding_box))
 
         print("Converted {region_count} censored regions into {box_count} regions!".format(region_count=len(regions), box_count=len(box_bounds)))
 
+        # Iterate over every grouping box
         for region_counter, box_object in enumerate(box_bounds, 1):
+            # Access the bounding box
             bounding_box = box_object[0]
+            # Access the censored regions
             cens_regions = box_object[2]
+
             crop_img = ori.crop(bounding_box)
             #convert mask back to image
             mask_reshaped = mask[0,:,:,:] * 255.0
             mask_img = Image.fromarray(mask_reshaped.astype('uint8'))
-            #resize the cropped images
+            #resize the cropped images, this will not matter if grouped because the boxes are already 512,512
             crop_img = crop_img.resize((512, 512))
             crop_img_array = image_to_array(crop_img)
             crop_img_array = np.expand_dims(crop_img_array, axis = 0)
@@ -211,11 +225,11 @@ class Decensor:
             #scale prediction image back to original size
             bounding_width = bounding_box[2]-bounding_box[0]
             bounding_height = bounding_box[3]-bounding_box[1]
-            # convert np array to image
 
             # print(bounding_width,bounding_height)
             # print(pred_img_array.shape)
 
+            # convert np array to image
             pred_img = Image.fromarray(pred_img_array.astype('uint8'))
             # pred_img.show()
             pred_img = pred_img.resize((bounding_width, bounding_height), resample=Image.BICUBIC)
@@ -231,6 +245,7 @@ class Decensor:
                     for row in range(bounding_height):
                         bounding_width_index = col + bounding_box[0]
                         bounding_height_index = row + bounding_box[1]
+                        # Iterate over every region in this bounding box
                         for region in cens_regions:
                             if (bounding_width_index, bounding_height_index) in region:
                                 output_img_array[bounding_height_index][bounding_width_index] = pred_img_array[i, :, :, :][row][col]
