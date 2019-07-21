@@ -29,6 +29,9 @@ def get_args():
 	parser.add_argument('--mask_color', dest='mask_color', default=[0,255,0], type=str2floatarr, help='rgb color of the mask, comma seperated.')
 	parser.add_argument('--is_mosaic', dest='is_mosaic', default='False', type=str2bool, help='true if image has mosaic censoring, false otherwise')
 
+	#Misc settings
+	parser.add_argument('--autoclose', dest='autoclose', default='False', type=str2bool, help='true will close the program when it finishes')
+
 	args = parser.parse_args()
 	return args
 
