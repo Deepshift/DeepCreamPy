@@ -1,7 +1,7 @@
 # DeepCreamPy
 *Decensoring Hentai with Deep Neural Networks.*
 
-*DeepCreamPyV2 coming in Summer 2019*
+*DeepCreamPyV2 coming August 5, 2019*
 
 [![GitHub release](https://img.shields.io/github/release/deeppomf/DeepCreamPy.svg)](https://github.com/deeppomf/DeepCreamPy/releases/latest)
 [![GitHub downloads](https://img.shields.io/github/downloads/deeppomf/DeepCreamPy/latest/total.svg)](https://github.com/deeppomf/DeepCreamPy/releases/latest)
