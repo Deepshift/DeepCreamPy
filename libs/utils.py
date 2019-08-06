@@ -1,26 +1,41 @@
-import numpy as np
 from PIL import Image, ImageDraw
+import numpy as np
 
-#convert PIL image to numpy array
+# Return a mask based off the specified color
+# Color should have a shape of (r, g, b) and a float value from 0.0 to 1.0
+# Colored should be the image in array form, with expanded dimensions of axis=0,
+# and the array has values from 0.0 to 1.0, same as color array.
+def get_mask(colored, color):
+    mask = np.ones(colored.shape, np.uint8)
+    i, j = np.where(np.all(colored[0] == color, axis=-1))
+    mask[0, i, j] = 0
+    return mask
+
+
 def image_to_array(image):
     array = np.asarray(image)
     return np.array(array / 255.0)
 
-#find strongly connected components with the mask color
-def find_regions(image, mask_color):
-    pixel = image.load()
-    neighbors = dict()
-    width, height = image.size
-    for x in range(width):
-        for y in range(height):
-            if is_right_color(pixel[x,y], *mask_color):
-                neighbors[x, y] = {(x,y)}
+# Find all the regions of the masked picture
+# All marked regions should have the value 0, all else should be 1
+def find_regions(mask):
+    # Gets all of the coordinates where the mask exists
+    i, j = np.where(np.all(mask[0], axis=-1) == 0)
+    if len(i) == 0:
+        return []
+    # Creates a tuple of the coordinates
+    coords = [coord for coord in zip(j, i)]
+
+    # Creates a dictionary with the coordinates as both key and value.
+    neighbors = dict((y, {y}) for y in coords)
+
     for x, y in neighbors:
         candidates = (x + 1, y), (x, y + 1)
         for candidate in candidates:
             if candidate in neighbors:
                 neighbors[x, y].add(candidate)
                 neighbors[candidate].add((x, y))
+
     closed_list = set()
 
     def connected_component(pixel):
@@ -37,7 +52,7 @@ def find_regions(image, mask_color):
     for pixel in neighbors:
         if pixel not in closed_list:
             regions.append(connected_component(pixel))
-    regions.sort(key = len, reverse = True)
+    regions.sort(key=len, reverse=True)
     return regions
 
 # risk of box being bigger than the image
@@ -126,10 +141,25 @@ def is_right_color(pixel, r2, g2, b2):
     r1, g1, b1 = pixel
     return r1 == r2 and g1 == g2 and b1 == b2
 
+# Draws boxes around the found censor regions.
 if __name__ == '__main__':
-    image = Image.open('')
+    image = Image.open(r'D:\VirtualPython\venv\DeepCreamPy\decensor_input\mermaid_censored.png')
     no_alpha_image = image.convert('RGB')
     draw = ImageDraw.Draw(no_alpha_image)
-    for region in find_regions(no_alpha_image, [0,255,0]):
+    
+    ### Original
+    # for region in find_regions(no_alpha_image, [0, 255, 0]):
+    #     draw.rectangle(expand_bounding(no_alpha_image, region), outline=(0, 255, 0))
+    # no_alpha_image.show()
+    ### END OF ORIGINAL
+
+    ### With new mask region finder
+    ori_array = np.asarray(no_alpha_image)
+    ori_array = np.array(ori_array / 255.0)
+    ori_array = np.expand_dims(ori_array, axis=0)
+    mask = get_mask(ori_array, [0.0, 1.0, 0.0])
+    regions = find_regions(mask)
+    for region in regions:
         draw.rectangle(expand_bounding(no_alpha_image, region), outline=(0, 255, 0))
     no_alpha_image.show()
+    ### END OF NEW MASK REGION FINDER
