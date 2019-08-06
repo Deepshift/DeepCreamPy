@@ -1,9 +1,9 @@
 # DeepCreamPy
 *Decensoring Hentai with Deep Neural Networks.*
 
-*DeepCreamPyV2 under construction.*
+## DeepCreamPyV2--a major upgrade over DeepCreamPyV1--is under construction.
 
-*Please bear with me. Many, many things will be broken.*
+## Please bear with me. Many, many things will be broken.*
 
 ## All available binaries are outdated. Wait for the next release.
 
@@ -31,7 +31,7 @@ Please before you open a new issue check [closed issues](https://github.com/deep
 - Decensoring images of ANY size
 - Decensoring of ANY shaped censor (e.g. black lines, pink hearts, etc.)
 - Higher quality decensors
-- Support for mosaic decensors (WIP)
+- Support for mosaic decensors
 
 ## Limitations
 The decensorship is for color hentai images that have minor to moderate censorship of the penis or vagina. If a vagina or penis is completely censored out, decensoring will be ineffective.
@@ -58,9 +58,6 @@ Miscellaneous:
 * [FAQ](docs/FAQ.md)
 
 ## To do
-- Switch to Deepfillv2 model
-- Enhance data collection and extraction
-- Use new training techniques
 - Resolve all Tensorflow compatibility problems
 - Finish the user interface
 - Add support for black and white images
@@ -71,16 +68,11 @@ Follow me on Twitter [@deeppomf](https://twitter.com/deeppomf) (NSFW Tweets) for
 Contributions are welcome! Special thanks to ccppoo, IAmTheRedSpy, 0xb8, deniszh, Smethan, mrmajik45, harjitmoe, itsVale, StartleStars, and SoftArmpit!
 
 ## License
-This project is licensed under GNU Affero General Public License v3.0.
-
-See [LICENSE.txt](LICENSE.txt) for more information about the license.
 
 ## Acknowledgements
 Example mermaid image by Shurajo & AVALANCHE Game Studio under [CC BY 3.0 License](https://creativecommons.org/licenses/by/3.0/). The example image is modified from the original, which can be found [here](https://opengameart.org/content/mermaid).
 
 Neural network code is modified from MathiasGruber's project [Partial Convolutions for Image Inpainting using Keras](https://github.com/MathiasGruber/PConv-Keras), which is an unofficial implementation of the paper [Image Inpainting for Irregular Holes Using Partial Convolutions](https://arxiv.org/abs/1804.07723). [Partial Convolutions for Image Inpainting using Keras](https://github.com/MathiasGruber/PConv-Keras) is licensed under the MIT license.
-
-User interface code is modified from Packt's project [Tkinter GUI Application Development Blueprints - Second Edition](https://github.com/PacktPublishing/Tkinter-GUI-Application-Development-Blueprints-Second-Edition). [Tkinter GUI Application Development Blueprints - Second Edition](https://github.com/PacktPublishing/Tkinter-GUI-Application-Development-Blueprints-Second-Edition) is licensed under the MIT license.
 
 Data is modified from gwern's project [Danbooru2017: A Large-Scale Crowdsourced and Tagged Anime Illustration Dataset](https://www.gwern.net/Danbooru2017) and other sources.
 
