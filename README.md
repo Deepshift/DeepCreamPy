@@ -17,7 +17,7 @@
 
 A deep learning-based tool to automatically replace censored artwork in hentai with plausible reconstructions.
 
-Before can be DeepCreamPy used, the user must color censored regions in their hentai green in an image editing program like GIMP or Photoshop. DeepCreamPy takes the green colored images as input, and a neural network autommatically fills in the censored regions.
+Before DeepCreamPy can be used, the user must color censored regions in their hentai green in an image editing program like GIMP or Photoshop. DeepCreamPy takes the green colored images as input, and a neural network autommatically fills in the censored regions.
 
 DeepCreamPy has a pre-built binary for Windows 64-bit available [here](https://github.com/deeppomf/DeepCreamPy/releases/latest). DeepCreamPy's code works on Windows, Mac, and Linux.
 
@@ -65,9 +65,13 @@ Miscellaneous:
 
 Follow me on Twitter [@deeppomf](https://twitter.com/deeppomf) (NSFW Tweets) for project updates.
 
-Contributions are welcome! Special thanks to ccppoo, IAmTheRedSpy, 0xb8, deniszh, Smethan, mrmajik45, harjitmoe, itsVale, StartleStars, and SoftArmpit!
+## Contributions
+Contributions are closed for the near future.
+
+Special thanks to ccppoo, IAmTheRedSpy, 0xb8, deniszh, Smethan, mrmajik45, harjitmoe, itsVale, StartleStars, and SoftArmpit for their contributions!
 
 ## License
+Please see the [EULA](EULA.txt) for license details.
 
 ## Acknowledgements
 Example mermaid image by Shurajo & AVALANCHE Game Studio under [CC BY 3.0 License](https://creativecommons.org/licenses/by/3.0/). The example image is modified from the original, which can be found [here](https://opengameart.org/content/mermaid).
