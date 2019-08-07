@@ -5,14 +5,15 @@ You can download the latest release [here](https://github.com/deeppomf/DeepCream
 Binary only available for Windows 64-bit.
 
 ## Run Code Yourself
-If you want to run the code yourself, you can clone this repo and download the model from https://drive.google.com/open?id=1Nzh2KAUO_rYPu2vDM_YP1EgbWtjI2hRX. Unzip the file into the /models/ folder.
+If you want to run the code yourself, you can clone this repo and download the model from https://drive.google.com/open?id=1YbN0iPS-RDJaCyyaBRJon-tMsFgrUNSH. Unzip the file into the /models/ folder.
 
 ### Dependencies (for running the code yourself)
 - Python 3.6.7
-- TensorFlow 1.12
+- TensorFlow 1.14
 - Keras 2.2.4
 - Pillow
-- h5py
+- Scipy
+- OpenCV
 
 No GPU required! Tested on Ubuntu 16.04 and Windows. Tensorflow on Windows is compatible with Python 3 and not Python 2. Tensorflow is not compatible with Python 3.7.
 
