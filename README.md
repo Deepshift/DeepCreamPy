@@ -1,9 +1,9 @@
 # DeepCreamPy
 *Decensoring Hentai with Deep Neural Networks.*
 
-## DeepCreamPyV2--a major upgrade over DeepCreamPyV1--is under construction.
+## DeepCreamPy 2.0--a major upgrade over DeepCreamPy 1.3--is under construction.
 
-## Please bear with me. Many, many things will be broken.*
+## Please bear with me. Many, many things will be broken.
 
 ## All available binaries are outdated. Wait for the next release.
 
@@ -46,7 +46,7 @@ It does NOT work with:
 
 ## Table of Contents
 Setup:
-* [Running latest Window 64-bit release](docs/INSTALLATION_BINARY.md)
+* [UNDER CONSTRUCTION: Running latest Window 64-bit release](docs/INSTALLATION_BINARY.md)
 * [Running code yourself](docs/INSTALLATION.md)
 
 Usage:
