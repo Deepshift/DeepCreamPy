@@ -3,9 +3,9 @@
 
 ## DeepCreamPy 2.0--a major upgrade over DeepCreamPy 1.3--is under construction.
 
-## Please bear with me. Many, many things will be broken.
+## DeepCreamPy 2.0 can be used by running the code yourself.
 
-## All available binaries are outdated. Wait for the next release.
+## No binary is available for DeepCreamPy 2.0 yet. Wait for the next release.
 
 [![GitHub release](https://img.shields.io/github/release/deeppomf/DeepCreamPy.svg)](https://github.com/deeppomf/DeepCreamPy/releases/latest)
 [![GitHub downloads](https://img.shields.io/github/downloads/deeppomf/DeepCreamPy/latest/total.svg)](https://github.com/deeppomf/DeepCreamPy/releases/latest)
@@ -30,8 +30,7 @@ Please before you open a new issue check [closed issues](https://github.com/deep
 ## Features
 - Decensoring images of ANY size
 - Decensoring of ANY shaped censor (e.g. black lines, pink hearts, etc.)
-- Higher quality decensors
-- Support for mosaic decensors
+- Decensoring of mosaic decensors
 
 ## Limitations
 The decensorship is for color hentai images that have minor to moderate censorship of the penis or vagina. If a vagina or penis is completely censored out, decensoring will be ineffective.
@@ -60,7 +59,6 @@ Miscellaneous:
 ## To do
 - Resolve all Tensorflow compatibility problems
 - Finish the user interface
-- Add support for black and white images
 - Add error log
 
 Follow me on Twitter [@deeppomf](https://twitter.com/deeppomf) (NSFW Tweets) for project updates.
