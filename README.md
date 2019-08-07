@@ -31,12 +31,12 @@ Please before you open a new issue check [closed issues](https://github.com/deep
 - Decensoring images of ANY size
 - Decensoring of ANY shaped censor (e.g. black lines, pink hearts, etc.)
 - Decensoring of mosaic decensors
+- Limited support for decensoring black and white/monochrome images
 
 ## Limitations
 The decensorship is for color hentai images that have minor to moderate censorship of the penis or vagina. If a vagina or penis is completely censored out, decensoring will be ineffective.
 
 It does NOT work with:
-- Black and white/Monochrome image
 - Hentai with screentones (e.g. printed hentai)
 - Real life porn
 - Censorship of nipples
