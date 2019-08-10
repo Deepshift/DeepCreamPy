@@ -36,17 +36,21 @@ class Decensor:
         return mask
 
     def load_model(self):
-        self.model = InpaintNN(bar_model_name = "./models/bar/Train_775000.meta", bar_checkpoint_name = "./models/bar/", mosaic_model_name = "./models/mosaic/Train_290000.meta", mosaic_checkpoint_name = "./models/mosaic/", is_mosaic=self.is_mosaic)
-
+        self.model = InpaintNN( bar_model_name = "./models/bar/Train_775000.meta",
+                                bar_checkpoint_name = "./models/bar/",
+                                mosaic_model_name = "./models/mosaic/Train_290000.meta",
+                                mosaic_checkpoint_name = "./models/mosaic/",
+                                is_mosaic=self.is_mosaic)
+                                
     def decensor_all_images_in_folder(self):
         #load model once at beginning and reuse same model
         #self.load_model()
         color_dir = self.args.decensor_input_path
         file_names = os.listdir(color_dir)
-        
+
         input_dir = self.args.decensor_input_path
         output_dir = self.args.decensor_output_path
-        
+
         # Change False to True before release --> file.check_file( input_dir, output_dir, True)
         file_names, self.files_removed = file.check_file( input_dir, output_dir, False)
 
@@ -64,7 +68,7 @@ class Decensor:
                     self.files_removed.append((color_file_path,3))
                     # incase of abnormal file format change (ex : text.txt -> text.png)
                     continue
-                    
+
                 #if we are doing a mosaic decensor
                 if self.is_mosaic:
                     #get the original file that hasn't been colored
@@ -91,7 +95,7 @@ class Decensor:
         if(self.files_removed is not None):
             file.error_messages(None, self.files_removed)
         print("\nDecensoring complete!")
-        
+
     #decensors one image at a time
     #TODO: decensor all cropped parts of the same image in a batch (then i need input for colored an array of those images and make additional changes)
     def decensor_image(self, ori, colored, file_name=None):
@@ -146,13 +150,13 @@ class Decensor:
             mask_img = mask_img.crop(bounding_box)
             mask_img = mask_img.resize((256, 256))
             # mask_img.show()
-            #convert mask_img back to array 
+            #convert mask_img back to array
             mask_array = image_to_array(mask_img)
             #the mask has been upscaled so there will be values not equal to 0 or 1
 
             # mask_array[mask_array > 0] = 1
             # crop_img_array[..., :-1][mask_array==0] = (0,0,0)
-            
+
             if not self.is_mosaic:
                 a, b = np.where(np.all(mask_array == 0, axis = -1))
                 # print(a,b)
@@ -182,7 +186,7 @@ class Decensor:
             # print(np.amax(crop_img_array))
             # print(np.amax(mask_array))
             # # print(np.amax(masked))
-            
+
             # print(np.amin(crop_img_array))
             # print(np.amin(mask_array))
             # # print(np.amin(masked))
@@ -194,7 +198,7 @@ class Decensor:
 
             # Run predictions for this batch of images
             pred_img_array = self.model.predict(crop_img_array, crop_img_array, mask_array)
-            
+
             pred_img_array = np.squeeze(pred_img_array, axis = 0)
             pred_img_array = (255.0 * ((pred_img_array + 1.0) / 2.0)).astype(np.uint8)
 

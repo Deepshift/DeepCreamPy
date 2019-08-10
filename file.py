@@ -1,13 +1,12 @@
 import os
 
-def check_file(input_dir, output_dir, Release_version = True):
+def check_file(input_dir_path, output_dir_path, Release_version = True):
     file_list = []
     output_file_list = []
     files_removed = []
+    input_dir = os.listdir(input_dir_path)
+    output_dir = os.listdir(output_dir_path)
 
-    input_dir = os.listdir(input_dir)
-    output_dir = os.listdir(output_dir)
-    
     for file_in in input_dir:
         if not file_in.startswith('.'):
             file_list.append(file_in)
