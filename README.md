@@ -16,9 +16,9 @@
 
 A deep learning-based tool to automatically replace censored artwork in hentai with plausible reconstructions.
 
-Before DeepCreamPy can be used, the user must color censored regions in their hentai green in an image editing program like GIMP or Photoshop. DeepCreamPy takes the green colored images as input, and a neural network autommatically fills in the censored regions.
+Before DeepCreamPy can be used, the user must color censored regions in their hentai green with an image editing program like GIMP or Photoshop. DeepCreamPy takes the green colored images as input, and a neural network automatically fills in the censored regions.
 
-DeepCreamPy has a pre-built binary for Windows 64-bit available [here](https://github.com/deeppomf/DeepCreamPy/releases/latest). DeepCreamPy's code works on Windows, Mac, and Linux.
+DeepCreamPy will have a pre-built binary for Windows 64-bit available [here](https://github.com/deeppomf/DeepCreamPy/releases/latest). DeepCreamPy's code works on Windows, Mac, and Linux.
 
 Please before you open a new issue check [closed issues](https://github.com/deeppomf/DeepCreamPy/issues?q=is%3Aissue+is%3Aclosed) and check the [table of contents](https://github.com/deeppomf/DeepCreamPy#table-of-contents).
 
