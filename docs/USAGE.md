@@ -1,14 +1,13 @@
 # Usage
 ## I. Decensoring bar censors
 
-For each image you want to decensor, using image editing software like Photoshop or GIMP to color the areas you want to decensor the green color (0,255,0), which is a very bright green color and be sure that the picture you use had RGB color Mode not Indexed Color Mode.
-Note: you can also specify a custom mask color, with the --mask_color option. For example, for bright red, you would use --mask_color=255,0,0
+For each image you want to decensor, using image editing software like Photoshop or GIMP to color the areas you want to decensor the green color (0,255,0), which is a very bright green color and be sure that the picture you use has RGB color Mode not Indexed Color Mode.
 
 *I strongly recommend you use the pencil tool and NOT the brush tool.*
 
 *If you aren't using the pencil tool, BE SURE TO TURN OFF ANTI-ALIASING on the tool you are using.*
 
-I personally use the wand selection tool with anti-aliasing turned off to select the censored regions. I then expand the selections slightly, pick the color (0,255,0), and use the paint bucket tool on the selected regions.
+I personally use the wand selection tool with anti-aliasing turned off to select the censored regions. I then expand the selections slightly to completely cover the censored areas, pick the color (0,255,0), and use the paint bucket tool on the selected regions.
 
 To expand selections in Photoshop, do Selection > Modify > Expand or Contract.
 To expand selections in GIMP, do Select > Grow.
