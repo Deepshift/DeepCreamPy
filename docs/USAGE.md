@@ -10,6 +10,7 @@ For each image you want to decensor, using image editing software like Photoshop
 I personally use the wand selection tool with anti-aliasing turned off to select the censored regions. I then expand the selections slightly to completely cover the censored areas, pick the color (0,255,0), and use the paint bucket tool on the selected regions.
 
 To expand selections in Photoshop, do Selection > Modify > Expand or Contract.
+
 To expand selections in GIMP, do Select > Grow.
 
 Save these images in the PNG format to the "decensor_input" folder. **They MUST be in PNG format.**
