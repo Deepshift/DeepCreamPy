@@ -1,12 +1,6 @@
 # DeepCreamPy
 *Decensoring Hentai with Deep Neural Networks.*
 
-## DeepCreamPy 2.0--a major upgrade over DeepCreamPy 1.3--is under construction.
-
-## DeepCreamPy 2.0 can be used by running the code yourself.
-
-## No binary is available for DeepCreamPy 2.0 yet. The binary will be created soon.
-
 [![GitHub release](https://img.shields.io/github/release/deeppomf/DeepCreamPy.svg)](https://github.com/deeppomf/DeepCreamPy/releases/latest)
 [![GitHub downloads](https://img.shields.io/github/downloads/deeppomf/DeepCreamPy/latest/total.svg)](https://github.com/deeppomf/DeepCreamPy/releases/latest)
 [![GitHub downloads](https://img.shields.io/github/downloads/deeppomf/DeepCreamPy/total.svg)](https://github.com/deeppomf/DeepCreamPy/releases)
@@ -18,7 +12,9 @@ A deep learning-based tool to automatically replace censored artwork in hentai w
 
 Before DeepCreamPy can be used, the user must color censored regions in their hentai green with an image editing program like GIMP or Photoshop. DeepCreamPy takes the green colored images as input, and a neural network automatically fills in the censored regions.
 
-DeepCreamPy will have a pre-built binary for Windows 64-bit available [here](https://github.com/deeppomf/DeepCreamPy/releases/latest). DeepCreamPy's code works on Windows, Mac, and Linux.
+You can download the latest release for Windows 64-bit [here](https://github.com/deeppomf/DeepCreamPy/releases/latest). 
+
+For users interested in compiling DeepCreamPy themselves, DeepCreamPy can run on Windows, Mac, and Linux.
 
 Please before you open a new issue check [closed issues](https://github.com/deeppomf/DeepCreamPy/issues?q=is%3Aissue+is%3Aclosed) and check the [table of contents](https://github.com/deeppomf/DeepCreamPy#table-of-contents).
 
