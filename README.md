@@ -40,7 +40,7 @@ It does NOT work with:
 
 ## Table of Contents
 Setup:
-* [UNDER CONSTRUCTION: Running latest Window 64-bit release](docs/INSTALLATION_BINARY.md)
+* [Running latest Window 64-bit release](docs/INSTALLATION_BINARY.md)
 * [Running code yourself](docs/INSTALLATION.md)
 
 Usage:
