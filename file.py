@@ -1,6 +1,6 @@
 import os
 
-def check_file(input_dir, output_dir, Release_version = True):
+def check_file(input_dir, output_dir, release_version = True):
     file_list = []
     output_file_list = []
     files_removed = []
@@ -11,7 +11,7 @@ def check_file(input_dir, output_dir, Release_version = True):
         if not file_in.startswith('.'):
             file_list.append(file_in)
 
-    if(Release_version is True):
+    if release_version is True:
         print("\nChecking valid files...")
         for file_out in output_dir:
             if file_out.lower().endswith('.png'):
@@ -40,12 +40,11 @@ def check_file(input_dir, output_dir, Release_version = True):
     return file_list, files_removed
 
 def error_messages(file_list, files_removed):
-
     if files_removed is None:
         return
 
-    for remove_this,reason in files_removed:
-        if(file_list is not None):
+    for remove_this, reason in files_removed:
+        if file_list is not None:
             file_list.remove(remove_this)
         if reason == 0:
             print(" REMOVED : (" + str(remove_this) +")   is not PNG file format")

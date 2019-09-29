@@ -13,14 +13,14 @@ try:
     from libs.utils import *
 except ImportError as e:
     print("Error when importing libraries: ", e)
-    print("Some Python libraries are missing. You can install all requirements by running in the command line 'pip install -r requirements.txt' ")
+    print("Some Python libraries are missing. You can install all required libraries by running in the command line 'pip install -r requirements.txt' ")
     exit(1)
 
 class Decensor:
-
     def __init__(self):
         self.args = config.get_args()
         self.is_mosaic = self.args.is_mosaic
+        self.variations = self.args.variations
 
         self.mask_color = [self.args.mask_color_red/255.0, self.args.mask_color_green/255.0, self.args.mask_color_blue/255.0]
 
@@ -45,19 +45,19 @@ class Decensor:
     def decensor_all_images_in_folder(self):
         #load model once at beginning and reuse same model
         #self.load_model()
-        color_dir = self.args.decensor_input_path
-        file_names = os.listdir(color_dir)
+        input_color_dir = self.args.decensor_input_path
+        file_names = os.listdir(input_color_dir)
 
         input_dir = self.args.decensor_input_path
         output_dir = self.args.decensor_output_path
 
-        # Change False to True before release --> file.check_file( input_dir, output_dir, True)
-        file_names, self.files_removed = file.check_file( input_dir, output_dir, False)
+        # Change False to True before release --> file.check_file(input_dir, output_dir, True)
+        file_names, self.files_removed = file.check_file(input_dir, output_dir, False)
 
         #convert all images into np arrays and put them in a list
         for file_name in file_names:
-            color_file_path = os.path.join(color_dir, file_name)
-            color_bn, color_ext = os.path.splitext(file_name)
+            color_file_path = os.path.join(input_color_dir, file_name)
+            color_basename, color_ext = os.path.splitext(file_name)
             if os.path.isfile(color_file_path) and color_ext.casefold() == ".png":
                 print("--------------------------------------------------------------------------")
                 print("Decensoring the image {}".format(color_file_path))
@@ -73,32 +73,51 @@ class Decensor:
                 if self.is_mosaic:
                     #get the original file that hasn't been colored
                     ori_dir = self.args.decensor_input_original_path
+                    test_file_names = os.listdir(ori_dir)
                     #since the original image might not be a png, test multiple file formats
                     valid_formats = {".png", ".jpg", ".jpeg"}
-                    for test_file_name in os.listdir(ori_dir):
-                        test_bn, test_ext = os.path.splitext(test_file_name)
-                        if (test_bn == color_bn) and (test_ext.casefold() in valid_formats):
+                    for test_file_name in test_file_names:
+                        test_basename, test_ext = os.path.splitext(test_file_name)
+                        if (test_basename == color_basename) and (test_ext.casefold() in valid_formats):
                             ori_file_path = os.path.join(ori_dir, test_file_name)
                             ori_img = Image.open(ori_file_path)
                             # colored_img.show()
-                            self.decensor_image(ori_img, colored_img, file_name)
+                            self.decensor_image_variations(ori_img, colored_img, file_name)
                             break
                     else: #for...else, i.e if the loop finished without encountering break
                         print("Corresponding original, uncolored image not found in {}".format(color_file_path))
                         print("Check if it exists and is in the PNG or JPG format.")
+                #if we are doing a bar decensor
                 else:
-                    self.decensor_image(colored_img, colored_img, file_name)
+                    self.decensor_image_variations(colored_img, colored_img, file_name)
             else:
                 print("--------------------------------------------------------------------------")
-                print("Irregular file detected : "+str(color_file_path))
+                print("Image can't be found: "+str(color_file_path))
         print("--------------------------------------------------------------------------")
-        if(self.files_removed is not None):
+        if self.files_removed is not None:
             file.error_messages(None, self.files_removed)
         print("\nDecensoring complete!")
 
+    def decensor_image_variations(self, ori, colored, file_name=None):
+        for i in range(self.variations):
+            self.decensor_image_variation(ori, colored, i, file_name)
+
+    #create different decensors of the same image by flipping the input image
+    def apply_variant(self, image, variant_number):
+        if variant_number == 0:
+            return image
+        elif variant_number == 1:
+            return image.transpose(Image.FLIP_LEFT_RIGHT)
+        elif variant_number == 2:
+            return image.transpose(Image.FLIP_TOP_BOTTOM)
+        else:
+            return image.transpose(Image.FLIP_LEFT_RIGHT).transpose(Image.FLIP_TOP_BOTTOM)
+
     #decensors one image at a time
     #TODO: decensor all cropped parts of the same image in a batch (then i need input for colored an array of those images and make additional changes)
-    def decensor_image(self, ori, colored, file_name=None):
+    def decensor_image_variation(self, ori, colored, variant_number, file_name):
+        ori = self.apply_variant(ori, variant_number)
+        colored = self.apply_variant(colored, variant_number)
         width, height = ori.size
         #save the alpha channel if the image has an alpha channel
         has_alpha = False
@@ -165,31 +184,19 @@ class Decensor:
                 # print(crop_img_array.shape)
                 # print(type(crop_img_array[0,0]))
                 crop_img_array[a,b,:] = 0.
-            temp = Image.fromarray((crop_img_array * 255.0).astype('uint8'))
+            # temp = Image.fromarray((crop_img_array * 255.0).astype('uint8'))
             # temp.show()
-
-            # if self.is_mosaic:
-            #     a, b = np.where(np.all(mask_array == 0, axis = -1))
-            #     print(a, b)
-            #     coords = [coord for coord in zip(a,b) if ((coord[0] + coord[1]) % 2 == 0)]
-            #     a,b = zip(*coords)
-
-            #     mask_array[a,b] = 1
-                # mask_array = mask_array * 255.0
-                # img = Image.fromarray(mask_array.astype('uint8'))
-                # img.show()
-                # return
 
             crop_img_array = np.expand_dims(crop_img_array, axis = 0)
             mask_array = np.expand_dims(mask_array, axis = 0)
 
             # print(np.amax(crop_img_array))
             # print(np.amax(mask_array))
-            # # print(np.amax(masked))
+            # print(np.amax(masked))
 
             # print(np.amin(crop_img_array))
             # print(np.amin(mask_array))
-            # # print(np.amin(masked))
+            # print(np.amin(masked))
 
             # print(mask_array)
 
@@ -237,10 +244,12 @@ class Decensor:
             output_img_array = np.concatenate((output_img_array, alpha_channel), axis = 2)
 
         output_img = Image.fromarray(output_img_array.astype('uint8'))
+        output_img = self.apply_variant(output_img, variant_number)
 
         if file_name != None:
             #save the decensored image
-            #file_name, _ = os.path.splitext(file_name)
+            base_name, ext = os.path.splitext(file_name)
+            file_name = base_name + " " + str(variant_number) + ext
             save_path = os.path.join(self.args.decensor_output_path, file_name)
             output_img.save(save_path)
 
@@ -249,6 +258,8 @@ class Decensor:
         else:
             print("Decensored image. Returning it.")
             return output_img
+
+    # def save_decensor()
 
 if __name__ == '__main__':
     decensor = Decensor()
