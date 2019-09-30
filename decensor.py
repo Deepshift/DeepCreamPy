@@ -18,18 +18,20 @@ except ImportError as e:
 
 class Decensor:
     def __init__(self):
-        self.args = config.get_args()
-        self.is_mosaic = self.args.is_mosaic
-        self.variations = self.args.variations
+        args = config.get_args()
+        self.is_mosaic = args.is_mosaic
+        self.variations = args.variations
+        self.mask_color = [args.mask_color_red/255.0, args.mask_color_green/255.0, args.mask_color_blue/255.0]
+        self.decensor_input_path = args.decensor_input_path
+        self.decensor_input_original_path = args.decensor_input_original_path
+        self.decensor_output_path = args.decensor_output_path
 
-        self.mask_color = [self.args.mask_color_red/255.0, self.args.mask_color_green/255.0, self.args.mask_color_blue/255.0]
-
-        if not os.path.exists(self.args.decensor_output_path):
-            os.makedirs(self.args.decensor_output_path)
+        if not os.path.exists(self.decensor_output_path):
+            os.makedirs(self.decensor_output_path)
 
         self.load_model()
 
-    def get_mask(self, colored):
+    def find_mask(self, colored):
         mask = np.ones(colored.shape, np.uint8)
         i, j = np.where(np.all(colored[0] == self.mask_color, axis=-1))
         mask[0, i, j] = 0
@@ -45,11 +47,11 @@ class Decensor:
     def decensor_all_images_in_folder(self):
         #load model once at beginning and reuse same model
         #self.load_model()
-        input_color_dir = self.args.decensor_input_path
+        input_color_dir = self.decensor_input_path
         file_names = os.listdir(input_color_dir)
 
-        input_dir = self.args.decensor_input_path
-        output_dir = self.args.decensor_output_path
+        input_dir = self.decensor_input_path
+        output_dir = self.decensor_output_path
 
         # Change False to True before release --> file.check_file(input_dir, output_dir, True)
         file_names, self.files_removed = file.check_file(input_dir, output_dir, False)
@@ -72,7 +74,7 @@ class Decensor:
                 #if we are doing a mosaic decensor
                 if self.is_mosaic:
                     #get the original file that hasn't been colored
-                    ori_dir = self.args.decensor_input_original_path
+                    ori_dir = self.decensor_input_original_path
                     test_file_names = os.listdir(ori_dir)
                     #since the original image might not be a png, test multiple file formats
                     valid_formats = {".png", ".jpg", ".jpeg"}
@@ -137,13 +139,13 @@ class Decensor:
             colored = colored.convert('RGB')
             color_array = image_to_array(colored)
             color_array = np.expand_dims(color_array, axis = 0)
-            mask = self.get_mask(color_array)
+            mask = self.find_mask(color_array)
             mask_reshaped = mask[0,:,:,:] * 255.0
             mask_img = Image.fromarray(mask_reshaped.astype('uint8'))
             # mask_img.show()
 
         else:
-            mask = self.get_mask(ori_array)
+            mask = self.find_mask(ori_array)
 
         #colored image is only used for finding the regions
         regions = find_regions(colored.convert('RGB'), [v*255 for v in self.mask_color])
@@ -250,7 +252,7 @@ class Decensor:
             #save the decensored image
             base_name, ext = os.path.splitext(file_name)
             file_name = base_name + " " + str(variant_number) + ext
-            save_path = os.path.join(self.args.decensor_output_path, file_name)
+            save_path = os.path.join(self.decensor_output_path, file_name)
             output_img.save(save_path)
 
             print("Decensored image saved to {save_path}!".format(save_path=save_path))
