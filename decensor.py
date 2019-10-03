@@ -29,8 +29,6 @@ class Decensor:
         if not os.path.exists(self.decensor_output_path):
             os.makedirs(self.decensor_output_path)
 
-        self.load_model()
-
     def find_mask(self, colored):
         mask = np.ones(colored.shape, np.uint8)
         i, j = np.where(np.all(colored[0] == self.mask_color, axis=-1))
@@ -38,15 +36,16 @@ class Decensor:
         return mask
 
     def load_model(self):
-        self.model = InpaintNN( bar_model_name = "./models/bar/Train_775000.meta",
-                                bar_checkpoint_name = "./models/bar/",
-                                mosaic_model_name = "./models/mosaic/Train_290000.meta",
-                                mosaic_checkpoint_name = "./models/mosaic/",
-                                is_mosaic=self.is_mosaic)
+        self.model = InpaintNN(bar_model_name = "./models/bar/Train_775000.meta",
+                               bar_checkpoint_name = "./models/bar/",
+                               mosaic_model_name = "./models/mosaic/Train_290000.meta",
+                               mosaic_checkpoint_name = "./models/mosaic/",
+                               is_mosaic=self.is_mosaic)
                                 
     def decensor_all_images_in_folder(self):
         #load model once at beginning and reuse same model
-        #self.load_model()
+        self.load_model()
+        
         input_color_dir = self.decensor_input_path
         file_names = os.listdir(input_color_dir)
 
@@ -260,8 +259,6 @@ class Decensor:
         else:
             print("Decensored image. Returning it.")
             return output_img
-
-    # def save_decensor()
 
 if __name__ == '__main__':
     decensor = Decensor()
