@@ -5,9 +5,9 @@
 # The greater the number of variations, the longer decensoring process will be.
 
 import sys
-from PySide2.QtWidgets import QWidget, QHBoxLayout, QVBoxLayout, QGridLayout, QGroupBox, QDesktopWidget, QApplication, QAction, qApp, QApplication, QMessageBox, QRadioButton, QPushButton
+from PySide2.QtWidgets import QWidget, QHBoxLayout, QVBoxLayout, QGridLayout, QGroupBox, QDesktopWidget, QApplication, QAction, qApp, QApplication, QMessageBox, QRadioButton, QPushButton, QLabel, QSizePolicy
 from PySide2.QtCore import Qt
-from PySide2.QtGui import QIcon
+from PySide2.QtGui import QFont
 
 from decensor import Decensor
 
@@ -23,6 +23,12 @@ class MainWindow(QWidget):
 		grid_layout.setSpacing(10)
 		self.setLayout(grid_layout)
 
+		#Tutorial
+		self.tutorialLabel = QLabel()
+		self.tutorialLabel.setText("Welcome to DeepCreamPy!\nIf you're new to DCP, please read the manual.")
+		self.tutorialLabel.setAlignment(Qt.AlignCenter)
+		self.tutorialLabel.setFont(QFont('Sans Serif', 13))
+
 		#Censor type group
 		self.censorTypeGroupBox = QGroupBox('Censor Type')
 
@@ -33,7 +39,7 @@ class MainWindow(QWidget):
 		censorLayout = QVBoxLayout()
 		censorLayout.addWidget(barButton)
 		censorLayout.addWidget(mosaicButton)
-		censorLayout.addStretch(1)
+		# censorLayout.addStretch(1)
 		self.censorTypeGroupBox.setLayout(censorLayout)
 
 		#Variation count group
@@ -48,20 +54,24 @@ class MainWindow(QWidget):
 		varLayout.addWidget(var1Button)
 		varLayout.addWidget(var2Button)
 		varLayout.addWidget(var3Button)
-		varLayout.addStretch(1)
+		# varLayout.addStretch(1)
 		self.variationsGroupBox.setLayout(varLayout)
 
 		#button
 		decensorButton = QPushButton('Decensor Your Images')
 		decensorButton.clicked.connect(self.decensorClicked)
+		decensorButton.setSizePolicy(
+    		QSizePolicy.Preferred,
+    		QSizePolicy.Preferred)
 
 		#put all groups into grid
-		grid_layout.addWidget(self.censorTypeGroupBox, 0, 0, 1, 1)
-		grid_layout.addWidget(self.variationsGroupBox, 0, 1, 1, 1)
-		grid_layout.addWidget(decensorButton, 1, 0, 1, 2)
+		grid_layout.addWidget(self.tutorialLabel, 0, 0, 1, 2)
+		grid_layout.addWidget(self.censorTypeGroupBox, 1, 0, 1, 1)
+		grid_layout.addWidget(self.variationsGroupBox, 1, 1, 1, 1)
+		grid_layout.addWidget(decensorButton, 2, 0, 1, 2)
 
 		#window size settings
-		self.resize(300, 200)
+		self.resize(300, 300)
 		self.center()
 		self.setWindowTitle('DeepCreamPy v2.2.0')
 		self.show()
