@@ -4,10 +4,10 @@
 # Please read this tutorial on how to prepare your images for use with DeepCreamPy.
 # The greater the number of variations, the longer decensoring process will be.
 
-import sys
-from PySide2.QtWidgets import QWidget, QHBoxLayout, QVBoxLayout, QGridLayout, QGroupBox, QDesktopWidget, QApplication, QAction, qApp, QApplication, QMessageBox, QRadioButton, QPushButton, QLabel, QSizePolicy
-from PySide2.QtCore import Qt
-from PySide2.QtGui import QFont
+import sys, time
+from PySide2.QtWidgets import QWidget, QHBoxLayout, QVBoxLayout, QGridLayout, QGroupBox, QDesktopWidget, QApplication, QAction, qApp, QApplication, QMessageBox, QRadioButton, QPushButton, QTextEdit, QLabel, QSizePolicy
+from PySide2.QtCore import Qt, QObject
+from PySide2.QtGui import QFont, QTextCursor
 
 from decensor import Decensor
 
@@ -25,7 +25,7 @@ class MainWindow(QWidget):
 
 		#Tutorial
 		self.tutorialLabel = QLabel()
-		self.tutorialLabel.setText("Welcome to DeepCreamPy!\nIf you're new to DCP, please read the manual.")
+		self.tutorialLabel.setText("Welcome to DeepCreamPy!\n\nIf you're new to DCP, please read the README.\nThis program does nothing without the proper setup of your images.")
 		self.tutorialLabel.setAlignment(Qt.AlignCenter)
 		self.tutorialLabel.setFont(QFont('Sans Serif', 13))
 
@@ -57,27 +57,40 @@ class MainWindow(QWidget):
 		# varLayout.addStretch(1)
 		self.variationsGroupBox.setLayout(varLayout)
 
-		#button
-		decensorButton = QPushButton('Decensor Your Images')
-		decensorButton.clicked.connect(self.decensorClicked)
-		decensorButton.setSizePolicy(
+		#Decensor button
+		self.decensorButton = QPushButton('Decensor Your Images')
+		self.decensorButton.clicked.connect(self.decensorClicked)
+		self.decensorButton.setSizePolicy(
     		QSizePolicy.Preferred,
     		QSizePolicy.Preferred)
+
+		#Progress message
+		# self.progressGroupBox = QGroupBox('Progress')
+
+		self.progressMessage = QTextEdit()
+		self.progressCursor = QTextCursor(self.progressMessage.document())
+		self.progressMessage.setTextCursor(self.progressCursor)
+		self.progressCursor.insertText("After you prepared your images, click on the decensor button once to begin decensoring.\nPlease be patient.\nDecensoring will take time.\n")
 
 		#put all groups into grid
 		grid_layout.addWidget(self.tutorialLabel, 0, 0, 1, 2)
 		grid_layout.addWidget(self.censorTypeGroupBox, 1, 0, 1, 1)
 		grid_layout.addWidget(self.variationsGroupBox, 1, 1, 1, 1)
-		grid_layout.addWidget(decensorButton, 2, 0, 1, 2)
+		grid_layout.addWidget(self.decensorButton, 2, 0, 1, 2)
+		grid_layout.addWidget(self.progressMessage, 3, 0, 4, 2)
 
 		#window size settings
-		self.resize(300, 300)
+		self.resize(500, 500)
 		self.center()
-		self.setWindowTitle('DeepCreamPy v2.2.0')
+		self.setWindowTitle('DeepCreamPy v2.2.0-alpha')
 		self.show()
 
 	def decensorClicked(self):
-		decensor = Decensor()
+		self.decensorButton.setEnabled(False)
+		self.progressMessage.clear()
+		self.progressCursor.insertText("Decensoring has begun!\n")
+
+		decensor = Decensor(text_edit = self.progressMessage, text_cursor = self.progressCursor, ui_mode = True)
 		#https://stackoverflow.com/questions/42349470/pyqt-find-checked-radiobutton-in-a-group
 		#set decensor to right settings
 		#censor type
@@ -100,6 +113,12 @@ class MainWindow(QWidget):
 		decensor.variations = variations
 
 		decensor.decensor_all_images_in_folder()
+
+		self.progressCursor.insertText("--------------------------------------------------------------------------\nTo decensor a new batch of images, please close this program and reopen it.\nThis is because the developer encountered a hard-to-fix bug that messes up repeated use of the decensor button.\nThe bug will be fixed in a future update.")
+		# time.sleep(3)
+		# sys.exit()
+
+		# self.decensorButton.setEnabled(False)
 
 	# def showAbout(self):
 	# 	QMessageBox.about(self, 'About', "DeepCreamPy v2.2.0 \n Developed by deeppomf")

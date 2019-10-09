@@ -4,20 +4,28 @@ try:
     import numpy as np
     from PIL import Image
 
-    import os
+    import os, logging, sys
     from copy import deepcopy
 
     import config
     import file
     from model import InpaintNN
     from libs.utils import *
+
 except ImportError as e:
     print("Error when importing libraries: ", e)
     print("Some Python libraries are missing. You can install all required libraries by running in the command line 'pip install -r requirements.txt' ")
     exit(1)
 
+# #signals to the ui to print out
+# class EmittingStream(QtCore.QObject):
+#     textWritten = QtCore.pyqtSignal(str)
+
+#     def write(self, text):
+#         self.textWritten.emit(str(text))
+
 class Decensor:
-    def __init__(self):
+    def __init__(self, text_edit = None, text_cursor = None, ui_mode = None):
         args = config.get_args()
         self.is_mosaic = args.is_mosaic
         self.variations = args.variations
@@ -25,9 +33,19 @@ class Decensor:
         self.decensor_input_path = args.decensor_input_path
         self.decensor_input_original_path = args.decensor_input_original_path
         self.decensor_output_path = args.decensor_output_path
+        
+        if ui_mode is not None:
+            self.ui_mode = ui_mode
+        else:
+            self.ui_mode = args.ui_mode
 
         if not os.path.exists(self.decensor_output_path):
             os.makedirs(self.decensor_output_path)
+
+        if self.ui_mode:
+            self.text_edit = text_edit
+            self.text_cursor = text_cursor
+            self.ui_mode = True
 
     def find_mask(self, colored):
         mask = np.ones(colored.shape, np.uint8)
@@ -60,12 +78,12 @@ class Decensor:
             color_file_path = os.path.join(input_color_dir, file_name)
             color_basename, color_ext = os.path.splitext(file_name)
             if os.path.isfile(color_file_path) and color_ext.casefold() == ".png":
-                print("--------------------------------------------------------------------------")
-                print("Decensoring the image {}".format(color_file_path))
+                self.custom_print("--------------------------------------------------------------------------")
+                self.custom_print("Decensoring the image {}".format(color_file_path))
                 try :
                     colored_img = Image.open(color_file_path)
                 except:
-                    print("Cannot identify image file (" +str(color_file_path)+")")
+                    self.custom_print("Cannot identify image file (" +str(color_file_path)+")")
                     self.files_removed.append((color_file_path,3))
                     # incase of abnormal file format change (ex : text.txt -> text.png)
                     continue
@@ -86,18 +104,18 @@ class Decensor:
                             self.decensor_image_variations(ori_img, colored_img, file_name)
                             break
                     else: #for...else, i.e if the loop finished without encountering break
-                        print("Corresponding original, uncolored image not found in {}".format(color_file_path))
-                        print("Check if it exists and is in the PNG or JPG format.")
+                        self.custom_print("Corresponding original, uncolored image not found in {}".format(color_file_path))
+                        self.custom_print("Check if it exists and is in the PNG or JPG format.")
                 #if we are doing a bar decensor
                 else:
                     self.decensor_image_variations(colored_img, colored_img, file_name)
             else:
-                print("--------------------------------------------------------------------------")
-                print("Image can't be found: "+str(color_file_path))
-        print("--------------------------------------------------------------------------")
+                self.custom_print("--------------------------------------------------------------------------")
+                self.custom_print("Image can't be found: "+str(color_file_path))
+        self.custom_print("--------------------------------------------------------------------------")
         if self.files_removed is not None:
             file.error_messages(None, self.files_removed)
-        print("\nDecensoring complete!")
+        self.custom_print("\nDecensoring complete!")
 
     def decensor_image_variations(self, ori, colored, file_name=None):
         for i in range(self.variations):
@@ -134,7 +152,7 @@ class Decensor:
         if self.is_mosaic:
             #if mosaic decensor, mask is empty
             # mask = np.ones(ori_array.shape, np.uint8)
-            # print(mask.shape)
+            # self.custom_print(mask.shape)
             colored = colored.convert('RGB')
             color_array = image_to_array(colored)
             color_array = np.expand_dims(color_array, axis = 0)
@@ -148,10 +166,10 @@ class Decensor:
 
         #colored image is only used for finding the regions
         regions = find_regions(colored.convert('RGB'), [v*255 for v in self.mask_color])
-        print("Found {region_count} censored regions in this image!".format(region_count = len(regions)))
+        self.custom_print("Found {region_count} censored regions in this image!".format(region_count = len(regions)))
 
         if len(regions) == 0 and not self.is_mosaic:
-            print("No green regions detected! Make sure you're using exactly the right color.")
+            self.custom_print("No green regions detected! Make sure you're using exactly the right color.")
             return
 
         output_img_array = ori_array[0].copy()
@@ -179,11 +197,11 @@ class Decensor:
 
             if not self.is_mosaic:
                 a, b = np.where(np.all(mask_array == 0, axis = -1))
-                # print(a,b)
-                # print(crop_img_array[a,b])
-                # print(crop_img_array[a,b,0])
-                # print(crop_img_array.shape)
-                # print(type(crop_img_array[0,0]))
+                # self.custom_print(a,b)
+                # self.custom_print(crop_img_array[a,b])
+                # self.custom_print(crop_img_array[a,b,0])
+                # self.custom_print(crop_img_array.shape)
+                # self.custom_print(type(crop_img_array[0,0]))
                 crop_img_array[a,b,:] = 0.
             # temp = Image.fromarray((crop_img_array * 255.0).astype('uint8'))
             # temp.show()
@@ -191,15 +209,15 @@ class Decensor:
             crop_img_array = np.expand_dims(crop_img_array, axis = 0)
             mask_array = np.expand_dims(mask_array, axis = 0)
 
-            # print(np.amax(crop_img_array))
-            # print(np.amax(mask_array))
-            # print(np.amax(masked))
+            # self.custom_print(np.amax(crop_img_array))
+            # self.custom_print(np.amax(mask_array))
+            # self.custom_print(np.amax(masked))
 
-            # print(np.amin(crop_img_array))
-            # print(np.amin(mask_array))
-            # print(np.amin(masked))
+            # self.custom_print(np.amin(crop_img_array))
+            # self.custom_print(np.amin(mask_array))
+            # self.custom_print(np.amin(masked))
 
-            # print(mask_array)
+            # self.custom_print(mask_array)
 
             crop_img_array = crop_img_array * 2.0 - 1
             # mask_array = mask_array / 255.0
@@ -215,8 +233,8 @@ class Decensor:
             bounding_height = bounding_box[3]-bounding_box[1]
             #convert np array to image
 
-            # print(bounding_width,bounding_height)
-            # print(pred_img_array.shape)
+            # self.custom_print(bounding_width,bounding_height)
+            # self.custom_print(pred_img_array.shape)
 
             pred_img = Image.fromarray(pred_img_array.astype('uint8'))
             # pred_img.show()
@@ -225,7 +243,7 @@ class Decensor:
 
             pred_img_array = image_to_array(pred_img)
 
-            # print(pred_img_array.shape)
+            # self.custom_print(pred_img_array.shape)
             pred_img_array = np.expand_dims(pred_img_array, axis = 0)
 
             # copy the decensored regions into the output image
@@ -236,7 +254,7 @@ class Decensor:
                         bounding_height_index = row + bounding_box[1]
                         if (bounding_width_index, bounding_height_index) in region:
                             output_img_array[bounding_height_index][bounding_width_index] = pred_img_array[i,:,:,:][row][col]
-            print("{region_counter} out of {region_count} regions decensored.".format(region_counter=region_counter, region_count=len(regions)))
+            self.custom_print("{region_counter} out of {region_count} regions decensored.".format(region_counter=region_counter, region_count=len(regions)))
 
         output_img_array = output_img_array * 255.0
 
@@ -254,11 +272,22 @@ class Decensor:
             save_path = os.path.join(self.decensor_output_path, file_name)
             output_img.save(save_path)
 
-            print("Decensored image saved to {save_path}!".format(save_path=save_path))
+            self.custom_print("Decensored image saved to {save_path}!".format(save_path=save_path))
             return
         else:
-            print("Decensored image. Returning it.")
+            self.custom_print("Decensored image. Returning it.")
             return output_img
+
+    #there are better ways to do this, but im sleepy
+    def custom_print(self, text):
+        if self.ui_mode:
+            from PySide2.QtGui import QTextCursor
+
+            self.text_cursor.insertText(text)
+            self.text_cursor.insertText("\n")
+            self.text_edit.moveCursor(QTextCursor.End)
+        else:
+            print(text)
 
 if __name__ == '__main__':
     decensor = Decensor()

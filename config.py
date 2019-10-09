@@ -32,6 +32,9 @@ def get_args():
 	parser.add_argument('--is_mosaic', type=str2bool, default='False', help='true if image has mosaic censoring, false otherwise')
 	parser.add_argument('--variations', type=int, choices=[1, 2, 4], default=1, help='number of decensor variations to be generated')
 
+	#Other settings
+	parser.add_argument('--ui_mode', default=False, help='true if you want ui mode, false if you want command line interface')
+
 	args = parser.parse_args()
 	return args
 
