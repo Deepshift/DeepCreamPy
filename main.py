@@ -70,6 +70,7 @@ class MainWindow(QWidget):
 		self.progressMessage = QTextEdit()
 		self.progressCursor = QTextCursor(self.progressMessage.document())
 		self.progressMessage.setTextCursor(self.progressCursor)
+		self.progressMessage.setReadOnly(True)
 		self.progressCursor.insertText("After you prepared your images, click on the decensor button once to begin decensoring.\nPlease be patient.\nDecensoring will take time.\n")
 
 		#put all groups into grid
