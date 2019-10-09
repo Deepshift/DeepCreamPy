@@ -3,6 +3,7 @@
 try:
     import numpy as np
     from PIL import Image
+    import tensorflow as tf
 
     import os, logging, sys
     from copy import deepcopy
@@ -116,6 +117,9 @@ class Decensor:
         if self.files_removed is not None:
             file.error_messages(None, self.files_removed)
         self.custom_print("\nDecensoring complete!")
+
+        #unload model to prevent memory issues
+        tf.reset_default_graph()
 
     def decensor_image_variations(self, ori, colored, file_name=None):
         for i in range(self.variations):
@@ -278,7 +282,6 @@ class Decensor:
             self.custom_print("Decensored image. Returning it.")
             return output_img
 
-    #there are better ways to do this, but im sleepy
     def custom_print(self, text):
         if self.ui_mode:
             from PySide2.QtGui import QTextCursor

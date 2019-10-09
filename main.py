@@ -115,11 +115,11 @@ class MainWindow(QWidget):
 
 		decensor.decensor_all_images_in_folder()
 
-		self.progressCursor.insertText("--------------------------------------------------------------------------\nTo decensor a new batch of images, please close this program and reopen it.\nThis is because the developer encountered a hard-to-fix bug that messes up repeated use of the decensor button.\nThe bug will be fixed in a future update.")
-		# time.sleep(3)
-		# sys.exit()
+		# self.progressCursor.insertText("--------------------------------------------------------------------------\nTo decensor a new batch of images, please close this program and reopen it.\nThis is because the developer encountered a hard-to-fix bug that messes up repeated use of the decensor button.\nThe bug will be fixed in a future update.")
+		# # time.sleep(3)
+		# # sys.exit()
 
-		# self.decensorButton.setEnabled(False)
+		self.decensorButton.setEnabled(True)
 
 	# def showAbout(self):
 	# 	QMessageBox.about(self, 'About', "DeepCreamPy v2.2.0 \n Developed by deeppomf")
