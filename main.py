@@ -25,7 +25,7 @@ class MainWindow(QWidget):
 
 		#Tutorial
 		self.tutorialLabel = QLabel()
-		self.tutorialLabel.setText("Welcome to DeepCreamPy!\n\nIf you're new to DCP, please read the README.\nThis program does nothing without the proper setup of your images.")
+		self.tutorialLabel.setText("Welcome to DeepCreamPy!\n\nIf you're new to DCP, please read the README.\nThis program does nothing without the proper setup of your images.\n\nSince this is an alpha release, expect issues like crashing or freezing.\nReport them to me on Github or Twitter @deeppomf.")
 		self.tutorialLabel.setAlignment(Qt.AlignCenter)
 		self.tutorialLabel.setFont(QFont('Sans Serif', 13))
 
@@ -114,10 +114,6 @@ class MainWindow(QWidget):
 		decensor.variations = variations
 
 		decensor.decensor_all_images_in_folder()
-
-		# self.progressCursor.insertText("--------------------------------------------------------------------------\nTo decensor a new batch of images, please close this program and reopen it.\nThis is because the developer encountered a hard-to-fix bug that messes up repeated use of the decensor button.\nThe bug will be fixed in a future update.")
-		# # time.sleep(3)
-		# # sys.exit()
 
 		self.decensorButton.setEnabled(True)
 

@@ -4,7 +4,7 @@ import numpy as np
 import module as mm
 
 #suppress tensorflow deprecation warnings
-tf.logging.set_verbosity(tf.logging.ERROR)
+tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.ERROR)
 
 class InpaintNN():
 
