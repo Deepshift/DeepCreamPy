@@ -27,7 +27,7 @@ The Licensor may provide you with support services related to the SOFTWARE PRODU
 (f) Compliance with Applicable Laws.
 You must comply with all applicable laws regarding use of the SOFTWARE PRODUCT.
 (g) Source Code.
-You may only compile and modify the source code of the SOFTWARE PRODUCT for your own personal purpose or to propose a contribution to the SOFTWARE PRODUCT.
+You may only compile and modify the source code of the SOFTWARE PRODUCT for your own personal purpose or to propose a contribution to the SOFTWARE PRODUCT. You are explicitly permitted to relink the SOFTWARE PRODUCT with modified versions of the Qt for Python library.
 (h) Neural Network Model.
 You may only compile and modify the neural network model of the SOFTWARE PRODUCT for your own personal purpose or to propose a contribution to the SOFTWARE PRODUCT.
 (i) Use over a Network.
