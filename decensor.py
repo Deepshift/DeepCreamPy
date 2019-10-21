@@ -12,6 +12,8 @@ try:
     import file
     from model import InpaintNN
     from libs.utils import *
+    # for QThread
+    from PySide2 import QtCore
 
 except ImportError as e:
     print("Error when importing libraries: ", e)
@@ -24,9 +26,14 @@ except ImportError as e:
 
 #     def write(self, text):
 #         self.textWritten.emit(str(text))
-
-class Decensor:
+'''
+print text later on other label telling status, informations ,...
+custom_print -> signals."methodname".emit( ... ) later
+changing GUI on other thread(not MainWindow) is not allowed
+'''
+class Decensor(QtCore.QThread):
     def __init__(self, text_edit = None, text_cursor = None, ui_mode = None):
+        super().__init__()
         args = config.get_args()
         self.is_mosaic = args.is_mosaic
         self.variations = args.variations
@@ -34,7 +41,9 @@ class Decensor:
         self.decensor_input_path = args.decensor_input_path
         self.decensor_input_original_path = args.decensor_input_original_path
         self.decensor_output_path = args.decensor_output_path
-        
+
+        self.signals = None # Singals class will be given by progressWindow
+
         if ui_mode is not None:
             self.ui_mode = ui_mode
         else:
@@ -48,23 +57,32 @@ class Decensor:
             self.text_cursor = text_cursor
             self.ui_mode = True
 
+    def run(self):
+        self.decensor_all_images_in_folder()
+
+    def stop(self):
+        # in case of stopping decensor, terminate not to run if self while MainWindow is closed
+        self.terminate()
+
     def find_mask(self, colored):
+        self.signals.update_progress_LABEL.emit("find_mask()", "finding mask...")
         mask = np.ones(colored.shape, np.uint8)
         i, j = np.where(np.all(colored[0] == self.mask_color, axis=-1))
         mask[0, i, j] = 0
         return mask
 
     def load_model(self):
+        self.signals.update_progress_LABEL.emit("load_model()", "loading model...")
         self.model = InpaintNN(bar_model_name = "./models/bar/Train_775000.meta",
                                bar_checkpoint_name = "./models/bar/",
                                mosaic_model_name = "./models/mosaic/Train_290000.meta",
                                mosaic_checkpoint_name = "./models/mosaic/",
                                is_mosaic=self.is_mosaic)
-                                
+
     def decensor_all_images_in_folder(self):
         #load model once at beginning and reuse same model
         self.load_model()
-        
+
         input_color_dir = self.decensor_input_path
         file_names = os.listdir(input_color_dir)
 
@@ -72,10 +90,19 @@ class Decensor:
         output_dir = self.decensor_output_path
 
         # Change False to True before release --> file.check_file(input_dir, output_dir, True)
+        self.signals.update_progress_LABEL.emit("file.check_file()", "checking image files and directory...")
         file_names, self.files_removed = file.check_file(input_dir, output_dir, False)
 
+        self.signals.total_ProgressBar_update_MAX_VALUE.emit("set total progress bar MaxValue : "+str(len(file_names)),len(file_names))
+
         #convert all images into np arrays and put them in a list
-        for file_name in file_names:
+        for n, file_name in enumerate(file_names, start = 1):
+            self.signals.total_ProgressBar_update_VALUE.emit("decensoring {} / {}".format(n, len(file_names)), n)
+            # singal progress bar value == masks decensored on image ,
+            # e.g) sample image : 17
+            self.signals.singal_ProgressBar_update_VALUE.emit("reset value", 0) # set to 0 for every image at start
+            self.signals.update_progress_LABEL.emit("for-loop, \"for file_name in file_names:\"","decensoring : "+str(file_name))
+
             color_file_path = os.path.join(input_color_dir, file_name)
             color_basename, color_ext = os.path.splitext(file_name)
             if os.path.isfile(color_file_path) and color_ext.casefold() == ".png":
@@ -176,9 +203,11 @@ class Decensor:
             self.custom_print("No green regions detected! Make sure you're using exactly the right color.")
             return
 
+        self.signals.singal_ProgressBar_update_MAX_VALUE.emit("found {} masked regions".format(len(regions)), len(regions))
         output_img_array = ori_array[0].copy()
 
         for region_counter, region in enumerate(regions, 1):
+            self.signals.update_progress_LABEL.emit("for-loop, \"for region_counter, region in enumerate(regions, 1):\"","decensoring censor {}/{}".format(region_counter,len(regions)))
             bounding_box = expand_bounding(ori, region, expand_factor=1.5)
             crop_img = ori.crop(bounding_box)
             # crop_img.show()
@@ -258,6 +287,7 @@ class Decensor:
                         bounding_height_index = row + bounding_box[1]
                         if (bounding_width_index, bounding_height_index) in region:
                             output_img_array[bounding_height_index][bounding_width_index] = pred_img_array[i,:,:,:][row][col]
+            self.signals.singal_ProgressBar_update_VALUE.emit("{} out of {} regions decensored.".format(region_counter, len(regions)), region_counter)
             self.custom_print("{region_counter} out of {region_count} regions decensored.".format(region_counter=region_counter, region_count=len(regions)))
 
         output_img_array = output_img_array * 255.0
@@ -268,6 +298,8 @@ class Decensor:
 
         output_img = Image.fromarray(output_img_array.astype('uint8'))
         output_img = self.apply_variant(output_img, variant_number)
+
+        self.signals.update_progress_LABEL.emit("finished", "decensoring finished, saving as file...")
 
         if file_name != None:
             #save the decensored image
@@ -295,3 +327,4 @@ class Decensor:
 if __name__ == '__main__':
     decensor = Decensor()
     decensor.decensor_all_images_in_folder()
+    # equivalent to decensor.start() (running as QtThread)
