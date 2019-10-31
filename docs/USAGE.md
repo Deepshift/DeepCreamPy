@@ -24,7 +24,7 @@ Decensor the images by double-clicking on the decensor file.
 Decensor the images by running
 
 ```
-$ python decensor.py
+$ python main.py
 ```
 
 Decensored images will be saved to the "decensor_output" folder. Decensoring takes a few minutes per image.
@@ -46,7 +46,7 @@ Decensor the images by double-clicking on the decensor_mosaic file.
 Decensor the images by running
 
 ```
-$ python decensor.py --is_mosaic=True
+$ python main.py
 ```
 
 Decensored images will be saved to the "decensor_output" folder. Decensoring takes a few minutes per image.
