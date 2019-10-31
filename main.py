@@ -5,11 +5,13 @@
 # The greater the number of variations, the longer decensoring process will be.
 
 import sys, time
-from PySide2.QtWidgets import QWidget, QHBoxLayout, QVBoxLayout, QGridLayout, QGroupBox, QDesktopWidget, QApplication, QAction, qApp, QApplication, QMessageBox, QRadioButton, QPushButton, QTextEdit, QLabel, QSizePolicy
+from PySide2.QtWidgets import QWidget, QHBoxLayout, QVBoxLayout, QGridLayout, QGroupBox, QDesktopWidget, QApplication, QAction, qApp, QApplication, QMessageBox, QRadioButton, QPushButton, QTextEdit, QLabel, QSizePolicy,QMainWindow
 from PySide2.QtCore import Qt, QObject
 from PySide2.QtGui import QFont, QTextCursor
 
 from decensor import Decensor
+
+from progressWindow import ProgressWindow
 
 class MainWindow(QWidget):
 
@@ -113,22 +115,30 @@ class MainWindow(QWidget):
 				variations = int(vb.text())
 		decensor.variations = variations
 
-		decensor.decensor_all_images_in_folder()
 
 		self.decensorButton.setEnabled(True)
+		self.hide()
+		self.progress = ProgressWindow(self, decensor = decensor)
+		# decensor.decensor_all_images_in_folder()
+
 
 	# def showAbout(self):
 	# 	QMessageBox.about(self, 'About', "DeepCreamPy v2.2.0 \n Developed by deeppomf")
-		
+
 	# #centers the main window
 	def center(self):
-		
 		qr = self.frameGeometry()
 		cp = QDesktopWidget().availableGeometry().center()
 		qr.moveCenter(cp)
 		self.move(qr.topLeft())
 
 if __name__ == '__main__':
+	import os
+    # you could remove this if statement if there's no error without this
+	if os.name == 'nt':
+		import PySide2
+		pyqt = os.path.dirname(PySide2.__file__)
+		QApplication.addLibraryPath(os.path.join(pyqt, "plugins"))
 	app = QApplication(sys.argv)
 	ex = MainWindow()
 	sys.exit(app.exec_())
