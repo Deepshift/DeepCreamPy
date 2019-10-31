@@ -27,7 +27,7 @@ class MainWindow(QWidget):
 
 		#Tutorial
 		self.tutorialLabel = QLabel()
-		self.tutorialLabel.setText("Welcome to DeepCreamPy!\n\nIf you're new to DCP, please read the README.\nThis program does nothing without the proper setup of your images.\n\nSince this is an alpha release, expect issues like crashing or freezing.\nReport them to me on Github or Twitter @deeppomf.")
+		self.tutorialLabel.setText("Welcome to DeepCreamPy!\n\nIf you're new to DCP, please read the README.\nThis program does nothing without the proper setup of your images.\n\nReport them to me on Github or Twitter @deeppomf.")
 		self.tutorialLabel.setAlignment(Qt.AlignCenter)
 		self.tutorialLabel.setFont(QFont('Sans Serif', 13))
 
@@ -117,7 +117,7 @@ class MainWindow(QWidget):
 
 
 		self.decensorButton.setEnabled(True)
-		self.hide()
+		# self.hide()
 		self.progress = ProgressWindow(self, decensor = decensor)
 		# decensor.decensor_all_images_in_folder()
 

@@ -4,7 +4,7 @@
 
 import sys
 import PySide2
-from PySide2.QtWidgets import (QApplication, QMainWindow, QPushButton,
+from PySide2.QtWidgets import (QApplication, QMainWindow, QDesktopWidget, QPushButton,
                              QToolTip, QLabel, QProgressBar, QAction, qApp)
 # from PyQt5.QtCore import QThread
 from signals import Signals
@@ -18,11 +18,13 @@ class ProgressWindow(QMainWindow):
         self.width = 700
         self.height = 500
         self.resize(self.width, self.height)
-        self.setWindowTitle("DeepCreamPy v2.2.0    Decensoring...")
         self.initUI()
 
         # signal class that could share update progress ui from decensor class (Decensor)
         self.setSignals()
+
+        self.center()
+        self.setWindowTitle("DeepCreamPy v2.2.0    Decensoring...")
         self.show()
 
         if not debug:
@@ -64,19 +66,19 @@ class ProgressWindow(QMainWindow):
             self.total_images_ProgressBar.setValue(0)
 
             # showing progress of decensored area
-            self.singal_image_decensor_ProgressBar = QProgressBar(self)
-            self.singal_image_decensor_ProgressBar.setGeometry(bar_X, bar_Y+80, bar_width,bar_height )
-            self.singal_image_decensor_ProgressBar.setMaximum(100)
-            self.singal_image_decensor_ProgressBar.setValue(0)
+            self.signal_image_decensor_ProgressBar = QProgressBar(self)
+            self.signal_image_decensor_ProgressBar.setGeometry(bar_X, bar_Y+80, bar_width,bar_height )
+            self.signal_image_decensor_ProgressBar.setMaximum(100)
+            self.signal_image_decensor_ProgressBar.setValue(0)
 
         progress_Label_1 = QLabel(self)
         progress_Label_1.move(50, 270)
-        progress_Label_1.setText("Number of your images")
+        progress_Label_1.setText("Decensor progress of all images")
         progress_Label_1.resize(progress_Label_1.sizeHint())
 
         progress_Label_2 = QLabel(self)
         progress_Label_2.move(50, 300 + 50)
-        progress_Label_2.setText("Number of image censoring")
+        progress_Label_2.setText("Decensor progress of current image")
         progress_Label_2.resize(progress_Label_2.sizeHint())
 
         self.progress_status_LABEL = QLabel(self)
@@ -86,13 +88,19 @@ class ProgressWindow(QMainWindow):
 
         setProgressBar()
 
+    def center(self):
+        qr = self.frameGeometry()
+        cp = QDesktopWidget().availableGeometry().center()
+        qr.moveCenter(cp)
+        self.move(qr.topLeft())
+
     def setSignals(self):
         self.signals = Signals()
         # set signal variable name same as method name preventing confusion
         self.signals.total_ProgressBar_update_MAX_VALUE.connect(self.total_ProgressBar_update_MAX_VALUE)
         self.signals.total_ProgressBar_update_VALUE.connect(self.total_ProgressBar_update_VALUE)
-        self.signals.singal_ProgressBar_update_MAX_VALUE.connect(self.singal_ProgressBar_update_MAX_VALUE)
-        self.signals.singal_ProgressBar_update_VALUE.connect(self.singal_ProgressBar_update_VALUE)
+        self.signals.signal_ProgressBar_update_MAX_VALUE.connect(self.signal_ProgressBar_update_MAX_VALUE)
+        self.signals.signal_ProgressBar_update_VALUE.connect(self.signal_ProgressBar_update_VALUE)
         self.signals.update_progress_LABEL.connect(self.update_progress_LABEL)
 
     # total_images_to_decensor_ProgressBar
@@ -106,15 +114,15 @@ class ProgressWindow(QMainWindow):
         print(msg)
         self.total_images_ProgressBar.setValue(val)
 
-    def singal_ProgressBar_update_MAX_VALUE(self, msg, max):
+    def signal_ProgressBar_update_MAX_VALUE(self, msg, max):
         # print msg for debugging
         print(msg)
-        self.singal_image_decensor_ProgressBar.setMaximum(max)
+        self.signal_image_decensor_ProgressBar.setMaximum(max)
 
-    def singal_ProgressBar_update_VALUE(self, msg, val):
+    def signal_ProgressBar_update_VALUE(self, msg, val):
         # print msg for debugging
         print(msg)
-        self.singal_image_decensor_ProgressBar.setValue(val)
+        self.signal_image_decensor_ProgressBar.setValue(val)
 
     def update_progress_LABEL(self, msg, status):
         print(msg)
@@ -123,7 +131,7 @@ class ProgressWindow(QMainWindow):
 
     def runDecensor(self):
         # start decensor in other thread, preventing UI Freezing
-        print("start run")
+        # print("start run")
         self.decensor.start()
 
 if __name__ == "__main__":

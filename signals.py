@@ -10,8 +10,8 @@ class Signals(QtCore.QObject):
     total_ProgressBar_update_MAX_VALUE = QtCore.Signal(str, int)
     total_ProgressBar_update_VALUE = QtCore.Signal(str, int)
 
-    singal_ProgressBar_update_MAX_VALUE = QtCore.Signal(str, int)
-    singal_ProgressBar_update_VALUE = QtCore.Signal(str, int)
+    signal_ProgressBar_update_MAX_VALUE = QtCore.Signal(str, int)
+    signal_ProgressBar_update_VALUE = QtCore.Signal(str, int)
 
     # str : tells status (print in cmd for debug)
     # str : String to update label
