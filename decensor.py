@@ -324,7 +324,7 @@ class Decensor(QtCore.QThread):
         else:
             print(text)
 
-if __name__ == '__main__':
-    decensor = Decensor()
-    decensor.decensor_all_images_in_folder()
+# if __name__ == '__main__':
+    # decensor = Decensor()
+    # decensor.decensor_all_images_in_folder()
     # equivalent to decensor.start() (running as QtThread)
