@@ -42,7 +42,7 @@ class Decensor(QtCore.QThread):
         self.decensor_input_original_path = args.decensor_input_original_path
         self.decensor_output_path = args.decensor_output_path
 
-        self.signals = None # Singals class will be given by progressWindow
+        self.signals = None # Signals class will be given by progressWindow
 
         if ui_mode is not None:
             self.ui_mode = ui_mode
@@ -65,14 +65,14 @@ class Decensor(QtCore.QThread):
         self.terminate()
 
     def find_mask(self, colored):
-        self.signals.update_progress_LABEL.emit("find_mask()", "finding mask...")
+        # self.signals.update_progress_LABEL.emit("find_mask()", "finding mask...")
         mask = np.ones(colored.shape, np.uint8)
         i, j = np.where(np.all(colored[0] == self.mask_color, axis=-1))
         mask[0, i, j] = 0
         return mask
 
     def load_model(self):
-        self.signals.update_progress_LABEL.emit("load_model()", "loading model...")
+        self.signals.update_progress_LABEL.emit("load_model()", "Loading neural network. This may take a while.")
         self.model = InpaintNN(bar_model_name = "./models/bar/Train_775000.meta",
                                bar_checkpoint_name = "./models/bar/",
                                mosaic_model_name = "./models/mosaic/Train_290000.meta",
@@ -90,18 +90,18 @@ class Decensor(QtCore.QThread):
         output_dir = self.decensor_output_path
 
         # Change False to True before release --> file.check_file(input_dir, output_dir, True)
-        self.signals.update_progress_LABEL.emit("file.check_file()", "checking image files and directory...")
+        self.signals.update_progress_LABEL.emit("file.check_file()", "Checking image files and directory...")
         file_names, self.files_removed = file.check_file(input_dir, output_dir, False)
 
         self.signals.total_ProgressBar_update_MAX_VALUE.emit("set total progress bar MaxValue : "+str(len(file_names)),len(file_names))
 
         #convert all images into np arrays and put them in a list
         for n, file_name in enumerate(file_names, start = 1):
-            self.signals.total_ProgressBar_update_VALUE.emit("decensoring {} / {}".format(n, len(file_names)), n)
-            # singal progress bar value == masks decensored on image ,
+            self.signals.total_ProgressBar_update_VALUE.emit("Decensoring {} / {}".format(n, len(file_names)), n)
+            # signal progress bar value == masks decensored on image ,
             # e.g) sample image : 17
-            self.signals.singal_ProgressBar_update_VALUE.emit("reset value", 0) # set to 0 for every image at start
-            self.signals.update_progress_LABEL.emit("for-loop, \"for file_name in file_names:\"","decensoring : "+str(file_name))
+            self.signals.signal_ProgressBar_update_VALUE.emit("reset value", 0) # set to 0 for every image at start
+            self.signals.update_progress_LABEL.emit("for-loop, \"for file_name in file_names:\"","Decensoring : "+str(file_name))
 
             color_file_path = os.path.join(input_color_dir, file_name)
             color_basename, color_ext = os.path.splitext(file_name)
@@ -146,6 +146,8 @@ class Decensor(QtCore.QThread):
         self.custom_print("\nDecensoring complete!")
 
         #unload model to prevent memory issues
+        self.signals.update_progress_LABEL.emit("finished", "Decensoring complete! Close this window and reopen DCP to start a new session.")
+
         tf.reset_default_graph()
 
     def decensor_image_variations(self, ori, colored, file_name=None):
@@ -203,11 +205,11 @@ class Decensor(QtCore.QThread):
             self.custom_print("No green regions detected! Make sure you're using exactly the right color.")
             return
 
-        self.signals.singal_ProgressBar_update_MAX_VALUE.emit("found {} masked regions".format(len(regions)), len(regions))
+        self.signals.signal_ProgressBar_update_MAX_VALUE.emit("Found {} masked regions".format(len(regions)), len(regions))
         output_img_array = ori_array[0].copy()
 
         for region_counter, region in enumerate(regions, 1):
-            self.signals.update_progress_LABEL.emit("for-loop, \"for region_counter, region in enumerate(regions, 1):\"","decensoring censor {}/{}".format(region_counter,len(regions)))
+            self.signals.update_progress_LABEL.emit("\"Decensoring regions in image\"","Decensoring censor {}/{}".format(region_counter,len(regions)))
             bounding_box = expand_bounding(ori, region, expand_factor=1.5)
             crop_img = ori.crop(bounding_box)
             # crop_img.show()
@@ -287,7 +289,7 @@ class Decensor(QtCore.QThread):
                         bounding_height_index = row + bounding_box[1]
                         if (bounding_width_index, bounding_height_index) in region:
                             output_img_array[bounding_height_index][bounding_width_index] = pred_img_array[i,:,:,:][row][col]
-            self.signals.singal_ProgressBar_update_VALUE.emit("{} out of {} regions decensored.".format(region_counter, len(regions)), region_counter)
+            self.signals.signal_ProgressBar_update_VALUE.emit("{} out of {} regions decensored.".format(region_counter, len(regions)), region_counter)
             self.custom_print("{region_counter} out of {region_count} regions decensored.".format(region_counter=region_counter, region_count=len(regions)))
 
         output_img_array = output_img_array * 255.0
@@ -299,7 +301,7 @@ class Decensor(QtCore.QThread):
         output_img = Image.fromarray(output_img_array.astype('uint8'))
         output_img = self.apply_variant(output_img, variant_number)
 
-        self.signals.update_progress_LABEL.emit("finished", "decensoring finished, saving as file...")
+        self.signals.update_progress_LABEL.emit("current image finished", "Decensoring of current image finished. Saving image...")
 
         if file_name != None:
             #save the decensored image
@@ -315,16 +317,17 @@ class Decensor(QtCore.QThread):
             return output_img
 
     def custom_print(self, text):
-        if self.ui_mode:
-            from PySide2.QtGui import QTextCursor
+        print(text)
+        # if self.ui_mode:
+        #     from PySide2.QtGui import QTextCursor
 
-            self.text_cursor.insertText(text)
-            self.text_cursor.insertText("\n")
-            self.text_edit.moveCursor(QTextCursor.End)
-        else:
-            print(text)
+        #     self.text_cursor.insertText(text)
+        #     self.text_cursor.insertText("\n")
+        #     self.text_edit.moveCursor(QTextCursor.End)
+        # else:
+        #     print(text)
 
-if __name__ == '__main__':
-    decensor = Decensor()
-    decensor.decensor_all_images_in_folder()
+# if __name__ == '__main__':
+    # decensor = Decensor()
+    # decensor.decensor_all_images_in_folder()
     # equivalent to decensor.start() (running as QtThread)

@@ -27,7 +27,7 @@ class MainWindow(QWidget):
 
 		#Tutorial
 		self.tutorialLabel = QLabel()
-		self.tutorialLabel.setText("Welcome to DeepCreamPy!\n\nIf you're new to DCP, please read the README.\nThis program does nothing without the proper setup of your images.\n\nSince this is an alpha release, expect issues like crashing or freezing.\nReport them to me on Github or Twitter @deeppomf.")
+		self.tutorialLabel.setText("Welcome to DeepCreamPy!\n\nIf you're new to DCP, please read the README.\nThis program does nothing without the proper setup of your images.\n\nReport any bugs you encounter to me on Github or Twitter @deeppomf.")
 		self.tutorialLabel.setAlignment(Qt.AlignCenter)
 		self.tutorialLabel.setFont(QFont('Sans Serif', 13))
 
@@ -85,7 +85,7 @@ class MainWindow(QWidget):
 		#window size settings
 		self.resize(500, 500)
 		self.center()
-		self.setWindowTitle('DeepCreamPy v2.2.0-alpha')
+		self.setWindowTitle('DeepCreamPy v2.2.0-beta')
 		self.show()
 
 	def decensorClicked(self):
@@ -121,6 +121,8 @@ class MainWindow(QWidget):
 		self.progress = ProgressWindow(self, decensor = decensor)
 		# decensor.decensor_all_images_in_folder()
 
+		# self.progress.hide()
+		# self.show()
 
 	# def showAbout(self):
 	# 	QMessageBox.about(self, 'About', "DeepCreamPy v2.2.0 \n Developed by deeppomf")

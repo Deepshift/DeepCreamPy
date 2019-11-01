@@ -2,9 +2,10 @@
 
 ## Where can I get your training data?
 I can't say what my data sources are because too many people downloading from them could cause them to block scraping.
+[Danbooru2018](https://www.gwern.net/Danbooru2018) is a good starting point.
 
 ## Where can I get your training code?
-My training code is mostly unchanged from MathiasGruber's project [Partial Convolutions for Image Inpainting using Keras](https://github.com/MathiasGruber/PConv-Keras), which is an unofficial implementation of the paper [Image Inpainting for Irregular Holes Using Partial Convolutions](https://arxiv.org/abs/1804.07723).
+My training code is is modified from Forty-lock's project [PEPSI](https://github.com/Forty-lock/PEPSI), which is the official implementation of the paper [PEPSI : Fast Image Inpainting With Parallel Decoding Network](http://openaccess.thecvf.com/content_CVPR_2019/html/Sagong_PEPSI__Fast_Image_Inpainting_With_Parallel_Decoding_Network_CVPR_2019_paper.html). [PEPSI](https://github.com/Forty-lock/PEPSI) is licensed under the MIT license.
 
 ## Why aren't black and white images supported? Black and white images seem easier to decensor than color images.
 Black and white images contain screentone patterns which are difficult for neural networks to replicate.
@@ -13,4 +14,4 @@ Black and white images contain screentone patterns which are difficult for neura
 It's on my to-do list, but it's not a high priority.
 
 ## Does this work with real life porn?
-It's not meant to, but you might get OK results anyways.
+DeepCreamPy is not trained on real life porn, so it will not work with real life porn.
