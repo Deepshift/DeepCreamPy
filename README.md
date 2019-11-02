@@ -23,11 +23,11 @@ Please before you open a new issue check [closed issues](https://github.com/deep
 </p>
 
 ## Features
-- Decensoring images of ANY size
+- Decensoring images of any size
 - Decensoring of ANY shaped censor (e.g. black lines, pink hearts, etc.)
 - Decensoring of mosaic decensors
 - Limited support for decensoring black and white/monochrome images
-- Generate multiple variations of decensors from the same image (**Available in the v2.2.0 alpha release**)
+- Generate multiple variations of decensors from the same image
 
 ## Limitations
 The decensorship is for color hentai images that have minor to moderate censorship of the penis or vagina. If a vagina or penis is completely censored out, decensoring will be ineffective.
@@ -77,4 +77,4 @@ Training data is modified from gwern's project [Danbooru2017: A Large-Scale Crow
 See [ACKNOWLEDGEMENTS.md](docs/ACKNOWLEDGEMENTS.md) for full license text of these projects.
 
 ## Donations
-If you like the work I do, you can donate to me via Paypal. The funds will go towards keeping me alive. [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=SAM6C6DQRDBAE)
+If you like the work I do, you can donate to me via Paypal. The funds go towards keeping me alive. [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=SAM6C6DQRDBAE)
