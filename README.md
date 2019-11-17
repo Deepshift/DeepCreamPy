@@ -62,7 +62,7 @@ Follow me on Twitter [@deeppomf](https://twitter.com/deeppomf) (NSFW Tweets) for
 ## Contributions
 If you want to make a pull request to DeepCreamPy, you must first sign our [Contributor License Agreement](https://github.com/deeppomf/contributing/blob/master/sign-cla.md#sign-the-cla) (the "CLA"). Then I can accept your pull requests.
 
-Special thanks to ccppoo, IAmTheRedSpy, 0xb8, deniszh, Smethan, mrmajik45, harjitmoe, itsVale, StartleStars, and SoftArmpit for their contributions!
+Special thanks to ccppoo, IAmTheRedSpy, 0xb8, deniszh, Smethan, harjitmoe, itsVale, StartleStars, and SoftArmpit for their contributions!
 
 ## License
 Source code and official releases/binaries are distributed under the [EULA](EULA.txt).
