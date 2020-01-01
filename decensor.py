@@ -1,36 +1,33 @@
-#!/usr/bin/env python3
 
 try:
-    import numpy as np
-    from PIL import Image
-    import tensorflow as tf
-
-    import os, logging, sys
-    from copy import deepcopy
-
-    import config
+    # default library
+    import os, logging, sys, config
+except ImportError as e:
+    print("Error when importing DEFAULT library : ", e)
+    print("\nIf you made script named [\"os.py\", \"logging.py\", \"sys.py\", \"config.py\"] rename it")
+    print("If not, re-install python or check your Python environment variables")
+try:
+    # local library
     import file
     from model import InpaintNN
     from libs.utils import *
-    # for QThread
-    from PySide2 import QtCore
-
+    # external library
+    import numpy as np
+    from PIL import Image
+    import tensorflow as tf
+    from PySide2 import QtCore # for QThread
 except ImportError as e:
-    print("Error when importing libraries: ", e)
-    print("Some Python libraries are missing. You can install all required libraries by running in the command line 'pip install -r requirements.txt' ")
-    exit(1)
+    print("\n"+ '='*20 + " ImportError " + "=" * 20 + "\n")
+    if e.__class__.__name__ == "ModuleNotFoundError":
+        print(e)
+        print("Python libraries are missing. You can install all required libraries by running in the command line (terminal)")
+        print("cpu version : pip install -r requirements-cpu.txt")
+        print("gpu version : pip install -r requirements-gpu.txt")
+    else:
+        print("Error when importing libraries: ", e)
+    print("\nIf pip doesn't work, try update through Anaconda")
+    print("install Anaconda : https://www.anaconda.com/distribution/ \n")
 
-# #signals to the ui to print out
-# class EmittingStream(QtCore.QObject):
-#     textWritten = QtCore.pyqtSignal(str)
-
-#     def write(self, text):
-#         self.textWritten.emit(str(text))
-'''
-print text later on other label telling status, informations ,...
-custom_print -> signals."methodname".emit( ... ) later
-changing GUI on other thread(not MainWindow) is not allowed
-'''
 class Decensor(QtCore.QThread):
     def __init__(self, text_edit = None, text_cursor = None, ui_mode = None):
         super().__init__()
