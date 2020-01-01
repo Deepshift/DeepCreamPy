@@ -106,12 +106,12 @@ class Decensor(QtCore.QThread):
             color_file_path = os.path.join(input_color_dir, file_name)
             color_basename, color_ext = os.path.splitext(file_name)
             if os.path.isfile(color_file_path) and color_ext.casefold() == ".png":
-                self.custom_print("--------------------------------------------------------------------------")
-                self.custom_print("Decensoring the image {}".format(color_file_path))
+                print("--------------------------------------------------------------------------")
+                print("Decensoring the image {}".format(color_file_path))
                 try :
                     colored_img = Image.open(color_file_path)
                 except:
-                    self.custom_print("Cannot identify image file (" +str(color_file_path)+")")
+                    print("Cannot identify image file (" +str(color_file_path)+")")
                     self.files_removed.append((color_file_path,3))
                     # incase of abnormal file format change (ex : text.txt -> text.png)
                     continue
@@ -132,18 +132,18 @@ class Decensor(QtCore.QThread):
                             self.decensor_image_variations(ori_img, colored_img, file_name)
                             break
                     else: #for...else, i.e if the loop finished without encountering break
-                        self.custom_print("Corresponding original, uncolored image not found in {}".format(color_file_path))
-                        self.custom_print("Check if it exists and is in the PNG or JPG format.")
+                        print("Corresponding original, uncolored image not found in {}".format(color_file_path))
+                        print("Check if it exists and is in the PNG or JPG format.")
                 #if we are doing a bar decensor
                 else:
                     self.decensor_image_variations(colored_img, colored_img, file_name)
             else:
-                self.custom_print("--------------------------------------------------------------------------")
-                self.custom_print("Image can't be found: "+str(color_file_path))
-        self.custom_print("--------------------------------------------------------------------------")
+                print("--------------------------------------------------------------------------")
+                print("Image can't be found: "+str(color_file_path))
+        print("--------------------------------------------------------------------------")
         if self.files_removed is not None:
             file.error_messages(None, self.files_removed)
-        self.custom_print("\nDecensoring complete!")
+        print("\nDecensoring complete!")
 
         #unload model to prevent memory issues
         self.signals.update_progress_LABEL.emit("finished", "Decensoring complete! Close this window and reopen DCP to start a new session.")
@@ -185,7 +185,7 @@ class Decensor(QtCore.QThread):
         if self.is_mosaic:
             #if mosaic decensor, mask is empty
             # mask = np.ones(ori_array.shape, np.uint8)
-            # self.custom_print(mask.shape)
+            # print(mask.shape)
             colored = colored.convert('RGB')
             color_array = image_to_array(colored)
             color_array = np.expand_dims(color_array, axis = 0)
@@ -199,10 +199,10 @@ class Decensor(QtCore.QThread):
 
         #colored image is only used for finding the regions
         regions = find_regions(colored.convert('RGB'), [v*255 for v in self.mask_color])
-        self.custom_print("Found {region_count} censored regions in this image!".format(region_count = len(regions)))
+        print("Found {region_count} censored regions in this image!".format(region_count = len(regions)))
 
         if len(regions) == 0 and not self.is_mosaic:
-            self.custom_print("No green regions detected! Make sure you're using exactly the right color.")
+            print("No green regions detected! Make sure you're using exactly the right color.")
             return
 
         self.signals.signal_ProgressBar_update_MAX_VALUE.emit("Found {} masked regions".format(len(regions)), len(regions))
@@ -232,11 +232,11 @@ class Decensor(QtCore.QThread):
 
             if not self.is_mosaic:
                 a, b = np.where(np.all(mask_array == 0, axis = -1))
-                # self.custom_print(a,b)
-                # self.custom_print(crop_img_array[a,b])
-                # self.custom_print(crop_img_array[a,b,0])
-                # self.custom_print(crop_img_array.shape)
-                # self.custom_print(type(crop_img_array[0,0]))
+                # print(a,b)
+                # print(crop_img_array[a,b])
+                # print(crop_img_array[a,b,0])
+                # print(crop_img_array.shape)
+                # print(type(crop_img_array[0,0]))
                 crop_img_array[a,b,:] = 0.
             # temp = Image.fromarray((crop_img_array * 255.0).astype('uint8'))
             # temp.show()
@@ -244,15 +244,15 @@ class Decensor(QtCore.QThread):
             crop_img_array = np.expand_dims(crop_img_array, axis = 0)
             mask_array = np.expand_dims(mask_array, axis = 0)
 
-            # self.custom_print(np.amax(crop_img_array))
-            # self.custom_print(np.amax(mask_array))
-            # self.custom_print(np.amax(masked))
+            # print(np.amax(crop_img_array))
+            # print(np.amax(mask_array))
+            # print(np.amax(masked))
 
-            # self.custom_print(np.amin(crop_img_array))
-            # self.custom_print(np.amin(mask_array))
-            # self.custom_print(np.amin(masked))
+            # print(np.amin(crop_img_array))
+            # print(np.amin(mask_array))
+            # print(np.amin(masked))
 
-            # self.custom_print(mask_array)
+            # print(mask_array)
 
             crop_img_array = crop_img_array * 2.0 - 1
             # mask_array = mask_array / 255.0
@@ -268,8 +268,8 @@ class Decensor(QtCore.QThread):
             bounding_height = bounding_box[3]-bounding_box[1]
             #convert np array to image
 
-            # self.custom_print(bounding_width,bounding_height)
-            # self.custom_print(pred_img_array.shape)
+            # print(bounding_width,bounding_height)
+            # print(pred_img_array.shape)
 
             pred_img = Image.fromarray(pred_img_array.astype('uint8'))
             # pred_img.show()
@@ -278,7 +278,7 @@ class Decensor(QtCore.QThread):
 
             pred_img_array = image_to_array(pred_img)
 
-            # self.custom_print(pred_img_array.shape)
+            # print(pred_img_array.shape)
             pred_img_array = np.expand_dims(pred_img_array, axis = 0)
 
             # copy the decensored regions into the output image
@@ -290,7 +290,7 @@ class Decensor(QtCore.QThread):
                         if (bounding_width_index, bounding_height_index) in region:
                             output_img_array[bounding_height_index][bounding_width_index] = pred_img_array[i,:,:,:][row][col]
             self.signals.signal_ProgressBar_update_VALUE.emit("{} out of {} regions decensored.".format(region_counter, len(regions)), region_counter)
-            self.custom_print("{region_counter} out of {region_count} regions decensored.".format(region_counter=region_counter, region_count=len(regions)))
+            print("{region_counter} out of {region_count} regions decensored.".format(region_counter=region_counter, region_count=len(regions)))
 
         output_img_array = output_img_array * 255.0
 
@@ -310,22 +310,11 @@ class Decensor(QtCore.QThread):
             save_path = os.path.join(self.decensor_output_path, file_name)
             output_img.save(save_path)
 
-            self.custom_print("Decensored image saved to {save_path}!".format(save_path=save_path))
+            print("Decensored image saved to {save_path}!".format(save_path=save_path))
             return
         else:
-            self.custom_print("Decensored image. Returning it.")
+            print("Decensored image. Returning it.")
             return output_img
-
-    def custom_print(self, text):
-        print(text)
-        # if self.ui_mode:
-        #     from PySide2.QtGui import QTextCursor
-
-        #     self.text_cursor.insertText(text)
-        #     self.text_cursor.insertText("\n")
-        #     self.text_edit.moveCursor(QTextCursor.End)
-        # else:
-        #     print(text)
 
 # if __name__ == '__main__':
     # decensor = Decensor()
