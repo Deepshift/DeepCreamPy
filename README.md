@@ -65,7 +65,7 @@ If you want to make a pull request to DeepCreamPy, you must first sign our [Cont
 Special thanks to ccppoo, IAmTheRedSpy, 0xb8, deniszh, Smethan, harjitmoe, itsVale, StartleStars, and SoftArmpit for their contributions!
 
 ## License
-Source code and official releases/binaries are distributed under the [EULA](EULA.txt).
+Source code and official releases/binaries are distributed under the [GNU Affero General Public License v3.0](LICENSE.md).
 
 ## Acknowledgements
 Example mermaid image by Shurajo & AVALANCHE Game Studio under [CC BY 3.0 License](https://creativecommons.org/licenses/by/3.0/). The example image is modified from the original, which can be found [here](https://opengameart.org/content/mermaid).
