@@ -373,7 +373,7 @@ class Decensor(QtCore.QThread):
             print("Decensored image. Returning it.")
             return output_img
 
-# if __name__ == '__main__':
-    # decensor = Decensor()
-    # decensor.decensor_all_images_in_folder()
+if __name__ == '__main__':
+    decensor = Decensor()
+    decensor.decensor_all_images_in_folder()
     # equivalent to decensor.start() (running as QtThread)
