@@ -9,6 +9,16 @@ If you want to run the code yourself, you can clone this repo and download the m
 
 If you want access to older models, see https://drive.google.com/open?id=1_A0xFeJhrqpmulA6cC-a7RxJoQOD2RKm.
 
+## running the code using Docker
+
+Once the input images and model have been placed in `decensor_input` and `models` respectively,
+the code can be run in the command line using docker (or Podman), to avoid managing dependencies manually, as follows:
+
+```
+docker build -t deepcreampy .
+docker run --rm -v $(pwd)/models:/opt/DeepCreamPy/models -v $(pwd)/decensor_input:/opt/DeepCreamPy/decensor_input -v $(pwd)/decensor_output:/opt/DeepCreamPy/decensor_output deepcreampy
+```
+
 ### Dependencies (for running the code yourself)
 - Python 3.6.7
 - TensorFlow 1.14
