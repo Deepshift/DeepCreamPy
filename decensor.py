@@ -28,6 +28,17 @@ except ImportError as e:
     print("\nIf pip doesn't work, try update through Anaconda")
     print("install Anaconda : https://www.anaconda.com/distribution/ \n")
 
+"""
+to allow decensoring in CLI, ignore all methods targeting Qt signals,
+when they aren't initialized (i.e. when the class isn't created by the GUI)
+"""
+class IgnoreAll(object):
+    def __getattr__(self,attr):
+        return IgnoreAll()
+
+    def __call__(self, *args, **kwargs):
+        return IgnoreAll()
+
 class Decensor(QtCore.QThread):
     def __init__(self, parentThread = None, text_edit = None, text_cursor = None, ui_mode = None):
         super().__init__(parentThread)
@@ -39,7 +50,7 @@ class Decensor(QtCore.QThread):
         self.decensor_input_original_path = args.decensor_input_original_path
         self.decensor_output_path = args.decensor_output_path
 
-        self.signals = None # Signals class will be given by progressWindow
+        self.signals = IgnoreAll() # Signals class will be given by progressWindow
 
         self.model = None
         self.warm_up = False
@@ -362,7 +373,7 @@ class Decensor(QtCore.QThread):
             print("Decensored image. Returning it.")
             return output_img
 
-# if __name__ == '__main__':
-    # decensor = Decensor()
-    # decensor.decensor_all_images_in_folder()
+if __name__ == '__main__':
+    decensor = Decensor()
+    decensor.decensor_all_images_in_folder()
     # equivalent to decensor.start() (running as QtThread)
