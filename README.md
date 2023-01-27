@@ -1,23 +1,23 @@
 # DeepCreamPy
 *Decensoring Hentai with Deep Neural Networks.*
 
-[![GitHub release](https://img.shields.io/github/release/gguilt/DeepCreamPy.svg)](https://github.com/gguilt/DeepCreamPy/releases/latest)
-[![GitHub downloads](https://img.shields.io/github/downloads/gguilt/DeepCreamPy/latest/total.svg)](https://github.com/gguilt/DeepCreamPy/releases/latest)
-[![GitHub downloads](https://img.shields.io/github/downloads/gguilt/DeepCreamPy/total.svg)](https://github.com/gguilt/DeepCreamPy/releases)
-[![GitHub issues](https://img.shields.io/github/issues/gguilt/DeepCreamPy.svg)](https://github.com/gguilt/DeepCreamPy/issues)
+[![GitHub release](https://img.shields.io/github/release/Deepshift/DeepCreamPy.svg)](https://github.com/Deepshift/DeepCreamPy/releases/latest)
+[![GitHub downloads](https://img.shields.io/github/downloads/Deepshift/DeepCreamPy/latest/total.svg)](https://github.com/Deepshift/DeepCreamPy/releases/latest)
+[![GitHub downloads](https://img.shields.io/github/downloads/Deepshift/DeepCreamPy/total.svg)](https://github.com/Deepshift/DeepCreamPy/releases)
+[![GitHub issues](https://img.shields.io/github/issues/Deepshift/DeepCreamPy.svg)](https://github.com/Deepshift/DeepCreamPy/issues)
 
 A deep learning-based tool to automatically replace censored artwork in hentai with plausible reconstructions.
 
 Before DeepCreamPy can be used, the user must color censored regions in their hentai green with an image editing program (e.g. GIMP, Photoshop). DeepCreamPy takes the green colored images as input, and a neural network automatically fills in the censored regions.
 
-You can download the latest release for Windows 64-bit [here](https://github.com/gguilt/DeepCreamPy/releases/latest).
+You can download the latest release for Windows 64-bit [here](https://github.com/Deepshift/DeepCreamPy/releases/latest).
 
 For users interested in compiling DeepCreamPy themselves, DeepCreamPy can run on Windows, Mac, and Linux.
 
-Please before you open a new issue check [closed issues](https://github.com/gguilt/DeepCreamPy/issues?q=is%3Aissue+is%3Aclosed) and check the [table of contents](https://github.com/gguilt/DeepCreamPy#table-of-contents).
+Please before you open a new issue check [closed issues](https://github.com/Deepshift/DeepCreamPy/issues?q=is%3Aissue+is%3Aclosed) and check the [table of contents](https://github.com/Deepshift/DeepCreamPy#table-of-contents).
 
 <p align="center">
-	<img src="https://github.com/gguilt/DeepCreamPy/blob/master/readme_images/mermaid_collage.png" width="800">
+	<img src="https://github.com/Deepshift/DeepCreamPy/blob/master/readme_images/mermaid_collage.png" width="800">
 </p>
 
 ## Features
