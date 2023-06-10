@@ -1,7 +1,7 @@
 # Installation
 
 ## Download Prebuilt Binaries
-You can download the latest release [here](https://github.com/deeppomf/DeepCreamPy/releases/latest) or find all previous releases [here](https://github.com/deeppomf/DeepCreamPy/releases).
+You can download the latest release [here](https://github.com/Deepshift/DeepCreamPy/releases/latest) or find all previous releases [here](https://github.com/Deepshift/DeepCreamPy/releases).
 Binary only available for Windows 64-bit.
 
 ## Run Code Yourself
