@@ -24,6 +24,7 @@ def get_args():
 	parser.add_argument('--decensor_input_path', default='./decensor_input/', help='input images with censored regions colored green to be decensored by decensor.py path')
 	parser.add_argument('--decensor_input_original_path', default='./decensor_input_original/', help='input images with no modifications to be decensored by decensor.py path')
 	parser.add_argument('--decensor_output_path', default='./decensor_output/', help='output images generated from running decensor.py path')
+	parser.add_argument('--clean-up-input-dirs', dest='clean_up_input_dirs', action='store_true', default=False, help='whether to delete all image files in the input directories when decensoring is done')
 
 	#Decensor settings
 	parser.add_argument('--mask_color_red', default=0, help='red channel of mask color in decensoring')
