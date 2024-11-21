@@ -1,14 +1,14 @@
 # DeepCreamPy
-*Decensoring Hentai with Deep Neural Networks.*
+*Plausibly Reconstruct Anime-style Artworks with Deep Neural Networks.*
 
 [![GitHub release](https://img.shields.io/github/release/Deepshift/DeepCreamPy.svg)](https://github.com/Deepshift/DeepCreamPy/releases/latest)
 [![GitHub downloads](https://img.shields.io/github/downloads/Deepshift/DeepCreamPy/latest/total.svg)](https://github.com/Deepshift/DeepCreamPy/releases/latest)
 [![GitHub downloads](https://img.shields.io/github/downloads/Deepshift/DeepCreamPy/total.svg)](https://github.com/Deepshift/DeepCreamPy/releases)
 [![GitHub issues](https://img.shields.io/github/issues/Deepshift/DeepCreamPy.svg)](https://github.com/Deepshift/DeepCreamPy/issues)
 
-A deep learning-based tool to automatically replace censored artwork in hentai with plausible reconstructions.
+A deep learning-based tool to automatically replace parts of artworks with plausible reconstructions.
 
-Before DeepCreamPy can be used, the user must color censored regions in their hentai green with an image editing program (e.g. GIMP, Photoshop). DeepCreamPy takes the green colored images as input, and a neural network automatically fills in the censored regions.
+Before DeepCreamPy can be used, the user must color regions in the artwork using green color with an image editing program (e.g. GIMP, Photoshop). DeepCreamPy takes the images with green colored regions as input, and a neural network automatically fills in the highlighted regions.
 
 You can download the latest release for Windows 64-bit [here](https://github.com/Deepshift/DeepCreamPy/releases/latest).
 
@@ -21,21 +21,21 @@ Please before you open a new issue check [closed issues](https://github.com/Deep
 </p>
 
 ## Features
-- Decensoring images of any size
-- Decensoring of ANY shaped censor (e.g. black lines, pink hearts, etc.)
-- Decensoring of mosaic decensors
-- Limited support for decensoring black and white/monochrome images
-- Generate multiple variations of decensors from the same image
+- Reconstructing images of any size
+- Reconstruction of ANY shaped censor (e.g. black lines, pink hearts, etc.)
+- Decensoring of mosaic censors
+- Limited support for black and white/monochrome images
+- Generate multiple variations of reconstructions from the same image
 
 ## Limitations
-The decensorship is for color hentai images that have minor to moderate censorship of the human reproductive organs. If an organ is completely censored out, decensoring will be ineffective.
+The reconstruction is mainly for anime-style human figures that have minor to moderate redactions. If an organ (e.g. arms, legs) is completely deleted, reconstruction will fail.
 
 It does NOT work with:
-- Hentai with screentones (e.g. printed hentai)
-- Real life pornographic material
-- Censorship of nipples
-- Censorship of lower orifice of the alimentary canal
-- Animated gifs/videos
+- Screentones (e.g. printed material)
+- Real life material
+- Reconstruction of nipples
+- Reconstruction of lower orifice of the alimentary canal
+- Animated gifs and videos
 
 ## Table of Contents
 Setup:
@@ -51,14 +51,16 @@ Miscellaneous:
 * [FAQ](docs/FAQ.md)
 
 ## To do
-- Resolve all Tensorflow compatibility problems
-- Finish the user interface
-- Add error log
+- Moving to PyTorch or newer versions of Tensorflow
+- Improving UI
+- Error logging
 
 ## Contributions
-If you want to make a pull request to DeepCreamPy, you must first sign our [Contributor License Agreement](https://github.com/deeppomf/contributing/blob/master/sign-cla.md#sign-the-cla) (the "CLA"). Then I can accept your pull requests.
+We're open for contributions as long as your contribution complies with [GNU Affero General Public License v3.0](LICENSE.md) and be advised of GitHub [inbound=outbound](https://docs.github.com/en/site-policy/github-terms/github-terms-of-service#6-contributions-under-repository-license) rule.
 
-Special thanks to ccppoo, IAmTheRedSpy, 0xb8, deniszh, Smethan, harjitmoe, itsVale, StartleStars, and SoftArmpit for their contributions!
+For contributions you used to sign [Contributor License Agreement](https://github.com/deeppomf/contributing/blob/master/sign-cla.md#sign-the-cla) (the "CLA") but it's no longer the case for now.
+
+This project was initially created by deeppomf and all credit goes to them. Special thanks to ccppoo, IAmTheRedSpy, 0xb8, deniszh, Smethan, harjitmoe, itsVale, StartleStars, SoftArmpit and everyone else for their contributions!
 
 ## License
 Source code and official releases/binaries are distributed under the [GNU Affero General Public License v3.0](LICENSE.md).
