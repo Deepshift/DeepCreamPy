@@ -40,3 +40,5 @@ class Signals(QtCore.QObject):
     # str : value to change
     # direct connect to self.progressMessage.append(str)
     appendText_progressMessage = QtCore.Signal(str)
+
+    update_clean_up_input_dirs_flag = QtCore.Signal(bool)

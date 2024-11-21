@@ -5,7 +5,7 @@
 # The greater the number of variations, the longer decensoring process will be.
 
 import sys, time
-from PySide2.QtWidgets import QWidget, QHBoxLayout, QVBoxLayout, QGridLayout, QGroupBox, QDesktopWidget, QApplication
+from PySide2.QtWidgets import QWidget, QHBoxLayout, QVBoxLayout, QGridLayout, QGroupBox, QDesktopWidget, QApplication, QCheckBox
 from PySide2.QtWidgets import QAction, qApp, QApplication, QMessageBox, QRadioButton, QPushButton, QTextEdit, QLabel
 from PySide2.QtWidgets import QSizePolicy,QMainWindow, QStatusBar, QProgressBar
 from PySide2.QtCore import Qt, QObject
@@ -23,8 +23,8 @@ class MainWindow(QWidget):
 		super().__init__()
 		self.signals = Signals()
 		self.initUI()
-		self.setSignals()
 		self.decensor = Decensor(self)
+		self.setSignals()
 		self.load_model()
 
 	def initUI(self):
@@ -94,14 +94,19 @@ class MainWindow(QWidget):
 		self.statusBar.addWidget(self.statusLabel, 1)
 		self.statusBar.addWidget(self.progressBar, 2)
 
+		self.cleanInputDirectoryCheckbox = QCheckBox(
+			'Clean up input directories after decensoring'
+		)
+
 		#put all groups into grid
 		# addWidget(row, column, rowSpan, columnSpan)
 		grid_layout.addWidget(self.tutorialLabel, 0, 0, 1, 2)
 		grid_layout.addWidget(self.censorTypeGroupBox, 1, 0, 1, 1)
 		grid_layout.addWidget(self.variationsGroupBox, 1, 1, 1, 1)
-		grid_layout.addWidget(self.decensorButton, 2, 0, 1, 2)
-		grid_layout.addWidget(self.progressMessage, 3, 0, 1, 2)
-		grid_layout.addWidget(self.statusBar, 4, 0, 1, 2)
+		grid_layout.addWidget(self.cleanInputDirectoryCheckbox, 2, 0, 1, 2)
+		grid_layout.addWidget(self.decensorButton, 3, 0, 1, 2)
+		grid_layout.addWidget(self.progressMessage, 4, 0, 1, 2)
+		grid_layout.addWidget(self.statusBar, 5, 0, 1, 2)
 
 		#window size settings
 		self.resize(900, 600)
@@ -128,6 +133,9 @@ class MainWindow(QWidget):
 		self.signals.insertText_progressCursor.connect(self.progressMessage.append)
 		self.signals.clear_progressMessage.connect(self.progressMessage.clear)
 		self.signals.appendText_progressMessage.connect(self.progressMessage.append)
+		self.signals.update_clean_up_input_dirs_flag.connect(
+			self.decensor.set_clean_up_input_dirs
+		)
 
 	def decensorClicked(self):
 		self.decensorButton.setEnabled(False)
@@ -158,6 +166,9 @@ class MainWindow(QWidget):
 				variations = int(vb.text())
 		self.decensor.variations = variations
 
+		self.signals.update_clean_up_input_dirs_flag.emit(
+			self.cleanInputDirectoryCheckbox.isChecked()
+		)
 
 		self.decensorButton.setEnabled(False)
 		self.decensor.start()

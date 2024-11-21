@@ -49,6 +49,7 @@ class Decensor(QtCore.QThread):
         self.decensor_input_path = args.decensor_input_path
         self.decensor_input_original_path = args.decensor_input_original_path
         self.decensor_output_path = args.decensor_output_path
+        self.clean_up_input_dirs = args.clean_up_input_dirs
 
         self.signals = IgnoreAll() # Signals class will be given by progressWindow
 
@@ -76,10 +77,14 @@ class Decensor(QtCore.QThread):
         elif self.warm_up:
             print("elif not self.warm_up:")
             self.decensor_all_images_in_folder()
+            self.do_post_jobs()
 
     def stop(self):
         # in case of stopping decensor, terminate not to run if self while MainWindow is closed
         self.terminate()
+
+    def set_clean_up_input_dirs(self, value):
+        self.clean_up_input_dirs = value
 
     def find_mask(self, colored):
         # self.signals.update_progress_LABEL.emit("find_mask()", "finding mask...")
@@ -372,6 +377,36 @@ class Decensor(QtCore.QThread):
             # Legacy Code piece ↓, used when DCPv1 had ui with Painting
             print("Decensored image. Returning it.")
             return output_img
+
+    def clean_input_directories(self):
+        """Removes .png, .jpg, and .jpeg files from input directories."""
+
+        allowed_extensions = {".png", ".jpg", ".jpeg"}
+
+        self.signals.insertText_progressCursor.emit("Cleaning {}...".format(self.decensor_input_path))
+
+        for file_name in os.listdir(self.decensor_input_path):
+            file_path = os.path.join(self.decensor_input_path, file_name)
+            if os.path.isfile(file_path) and os.path.splitext(file_name)[1].lower() in allowed_extensions:
+                os.remove(file_path)
+
+        if self.is_mosaic:
+            self.signals.insertText_progressCursor.emit(
+                "Cleaning {}...".format(self.decensor_input_original_path)
+            )
+            for file_name in os.listdir(self.decensor_input_original_path):
+                file_path = os.path.join(self.decensor_input_original_path,
+                                         file_name)
+                if os.path.isfile(file_path) and os.path.splitext(file_name)[1].lower() in allowed_extensions:
+                    os.remove(file_path)
+
+        self.signals.insertText_progressCursor.emit("Done!")
+
+    def do_post_jobs(self):
+        if self.clean_up_input_dirs:
+            self.clean_input_directories()
+
+
 
 if __name__ == '__main__':
     decensor = Decensor()
