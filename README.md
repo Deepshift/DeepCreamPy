@@ -8,13 +8,13 @@
 
 A deep learning-based tool to automatically replace parts of artworks with plausible reconstructions.
 
-Before DeepCreamPy can be used, the user must color regions in the artwork using green color with an image editing program (e.g. GIMP, Photoshop). DeepCreamPy takes the images with green colored regions as input, and a neural network automatically fills in the highlighted regions.
+Before using DeepCreamPy, the user must mark regions in the artwork using green color with an image editing program (e.g., GIMP, Photoshop). DeepCreamPy takes the images with green colored regions as input, and a neural network automatically fills in the highlighted regions.
 
 You can download the latest release for Windows 64-bit [here](https://github.com/Deepshift/DeepCreamPy/releases/latest).
 
 For users interested in compiling DeepCreamPy themselves, DeepCreamPy can run on Windows, Mac, and Linux.
 
-Please before you open a new issue check [closed issues](https://github.com/Deepshift/DeepCreamPy/issues?q=is%3Aissue+is%3Aclosed) and check the [table of contents](https://github.com/Deepshift/DeepCreamPy#table-of-contents).
+Before opening a new issue, please check [closed issues](https://github.com/Deepshift/DeepCreamPy/issues?q=is%3Aissue+is%3Aclosed) and refer to the [table of contents](https://github.com/Deepshift/DeepCreamPy#table-of-contents).
 
 <p align="center">
 	<img src="https://github.com/Deepshift/DeepCreamPy/blob/master/readme_images/mermaid_collage.png" width="800">
@@ -24,7 +24,7 @@ Please before you open a new issue check [closed issues](https://github.com/Deep
 - Reconstructing images of any size
 - Reconstruction of ANY shaped censor (e.g. black lines, pink hearts, etc.)
 - Decensoring of mosaic censors
-- Limited support for black and white/monochrome images
+- Limited support for black-and-white/monochrome images
 - Generate multiple variations of reconstructions from the same image
 
 ## Limitations
@@ -34,7 +34,7 @@ It does NOT work with:
 - Screentones (e.g. printed material)
 - Real life material
 - Reconstruction of nipples
-- Reconstruction of lower orifice of the alimentary canal
+- Reconstruction of the lower orifice of the alimentary canal
 - Animated gifs and videos
 
 ## Table of Contents
@@ -51,16 +51,16 @@ Miscellaneous:
 * [FAQ](docs/FAQ.md)
 
 ## To do
-- Moving to PyTorch or newer versions of Tensorflow
+- Moving to PyTorch or newer versions of TensorFlow
 - Improving UI
 - Error logging
 
 ## Contributions
-We're open for contributions as long as your contribution complies with [GNU Affero General Public License v3.0](LICENSE.md) and be advised of GitHub [inbound=outbound](https://docs.github.com/en/site-policy/github-terms/github-terms-of-service#6-contributions-under-repository-license) rule.
+We welcome contributions as long as they comply with the [GNU Affero General Public License v3.0](LICENSE.md). Be advised of GitHub's [inbound=outbound](https://docs.github.com/en/site-policy/github-terms/github-terms-of-service#6-contributions-under-repository-license) rule.
 
-For contributions you used to sign [Contributor License Agreement](https://github.com/deeppomf/contributing/blob/master/sign-cla.md#sign-the-cla) (the "CLA") but it's no longer the case for now.
+Previously, contributors had to sign a [Contributor License Agreement](https://github.com/deeppomf/contributing/blob/master/sign-cla.md#sign-the-cla) (the "CLA"). This requirement is currently no longer in place.
 
-This project was initially created by deeppomf and all credit goes to them. Special thanks to ccppoo, IAmTheRedSpy, 0xb8, deniszh, Smethan, harjitmoe, itsVale, StartleStars, SoftArmpit and everyone else for their contributions!
+This project was initially created by **deeppomf** and all credit goes to them. Special thanks to ccppoo, IAmTheRedSpy, 0xb8, deniszh, Smethan, harjitmoe, itsVale, StartleStars, SoftArmpit and everyone else for their contributions!
 
 ## License
 Source code and official releases/binaries are distributed under the [GNU Affero General Public License v3.0](LICENSE.md).
