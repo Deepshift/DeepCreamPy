@@ -28,13 +28,11 @@ Before opening a new issue, please check [closed issues](https://github.com/Deep
 - Generate multiple variations of reconstructions from the same image
 
 ## Limitations
-The reconstruction is mainly for anime-style human figures that have minor to moderate redactions. If an organ (e.g. arms, legs) is completely deleted, reconstruction will fail.
+The reconstruction is mainly for anime-style human-like figures that have minor to moderate redactions. If an organ (e.g. arms, legs) is completely deleted, reconstruction will fail.
 
 It does NOT work with:
 - Screentones (e.g. printed material)
-- Real life material
-- Reconstruction of nipples
-- Reconstruction of the lower orifice of the alimentary canal
+- Real life photos
 - Animated gifs and videos
 
 ## Table of Contents
@@ -43,9 +41,9 @@ Setup:
 * [Running code yourself](docs/INSTALLATION.md)
 
 Usage:
-* [Decensoring tutorial](docs/USAGE.md)
+* [Tutorial](docs/USAGE.md)
 * [Troubleshooting for installing](docs/TROUBLESHOOTING.md)
-* [Troubleshooting for poor quality decensors](docs/TROUBLESHOOTING_DECENSORS.md)
+* [Troubleshooting for poor quality outputs](docs/TROUBLESHOOTING_DECENSORS.md)
 
 Miscellaneous:
 * [FAQ](docs/FAQ.md)
